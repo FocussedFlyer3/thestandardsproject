@@ -12,7 +12,9 @@ class ClassTableSeeder extends Seeder
      */
     public function run()
     {
-        DB::table('classes')->delete();
+        // resets table
+        DB::statement('SET FOREIGN_KEY_CHECKS=0');  
+        DB::table('classes')->truncate();
         
         /*$data = array(
             array('grade' => '6','subject' => 'Math','teacher_id' => '1','starts_at' => '10:00:00','ends_at' => '10:45:00','school' => 'PS101','room' => 'A303'),
@@ -25,9 +27,9 @@ class ClassTableSeeder extends Seeder
         Classes::insert($data);*/
 
         Classes::create(array(
-        'grade'     => '6',
+        'grade' => 6,
         'subject' => 'Math',
-        'teacher_id'    => '1',
+        'teacher_id' => '1',
         'starts_at' => '10:00:00',
         'ends_at' => '10:45:00',
         'school' => 'PS101',
@@ -35,7 +37,7 @@ class ClassTableSeeder extends Seeder
         ));
 
         Classes::create(array(
-        'grade'     => '6',
+        'grade'     => 6,
         'subject' => 'Math',
         'teacher_id'    => '1',
         'starts_at' => '11:00:00',
@@ -45,7 +47,7 @@ class ClassTableSeeder extends Seeder
         ));
 
         Classes::create(array(
-        'grade'     => '6',
+        'grade'     => 6,
         'subject' => 'English',
         'teacher_id'    => '2',
         'starts_at' => '11:00:00',
@@ -55,7 +57,7 @@ class ClassTableSeeder extends Seeder
         ));
 
         Classes::create(array(
-        'grade'     => '6',
+        'grade'     => 6,
         'subject' => 'English',
         'teacher_id'    => '2',
         'starts_at' => '12:00:00',
@@ -65,7 +67,7 @@ class ClassTableSeeder extends Seeder
         ));
 
         Classes::create(array(
-        'grade'     => '6',
+        'grade'     => 6,
         'subject' => 'Science',
         'teacher_id'    => '3',
         'starts_at' => '10:00:00',

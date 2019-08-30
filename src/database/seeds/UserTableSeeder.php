@@ -13,9 +13,11 @@ class UserTableSeeder extends Seeder
      */
     public function run()
     {
-        
-        DB::table('users')->delete();
-        //this basically plants fake users in a database    
+        // resets tables
+        DB::statement('SET FOREIGN_KEY_CHECKS=0');  
+        DB::table('users')->truncate();
+
+        //  insert mock teachers  
         User::create(array(
         'name'     => 'John Beck',
         'username' => 'teacherone',
@@ -40,8 +42,7 @@ class UserTableSeeder extends Seeder
         'role' => 1,
         ));
 
-        //student inputs
-
+        //  insert mock students
         User::create(array(
             'name'     => 'Sally Rogers',
             'username' => 'studentone',
@@ -120,6 +121,14 @@ class UserTableSeeder extends Seeder
             'email'    => 'ten@email.com',
             'password' => Hash::make('passwordone'),
             'role' => 0,
+            ));
+        
+        User::create(array(
+            'name'     => 'Larry',
+            'username' => 'Larry',
+            'email'    => 'Larry@homestead.com',
+            'password' => Hash::make('zxcasdqwe123'),
+            'role' => 1,
             ));
 
     }

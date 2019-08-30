@@ -11,7 +11,9 @@ class ClassUserTableSeeder extends Seeder
      */
     public function run()
     {
-        DB::table('class_user')->delete();
+        // resets table
+        DB::statement('SET FOREIGN_KEY_CHECKS=0');  
+        DB::table('class_user')->truncate();
 
         DB::table('class_user')->insert(array(
             array('class_id' => 1, 'user_id' => 4),
