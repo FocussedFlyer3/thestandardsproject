@@ -16,6 +16,12 @@
 
 <script>
     export default {
+        created() {
+            console.log('TESTING')
+            window.axios.get('/api/classroom/1').then((response) => {
+                console.log(response)
+            })
+        },
         mounted() {
             console.log('Component mounted.')
         }

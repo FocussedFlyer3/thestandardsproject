@@ -18,4 +18,5 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-// Obtain
+// get all students in classroom API
+Route::get('/classroom/{id}', 'ClassRoomController@getStudents');

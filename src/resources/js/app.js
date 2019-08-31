@@ -27,7 +27,7 @@ import Example from './components/ExampleComponent.vue'
 
 const app = new Vue({
     el: '#app',
-    components: [
+    components: {
         'example-component': Example
-    ]
+    }
 });
