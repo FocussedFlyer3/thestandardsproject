@@ -18,5 +18,17 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-// get all students in classroom API
-Route::get('/classroom/{id}', 'ClassRoomController@getStudents');
+
+// API call without Authorization header
+Route::group(['prefix' => 'v1', 'middleware' => 'web'], function () {
+    // get user account info
+    //  Route::get('/account', 'AccountController@getInfo');
+});
+
+//  API call with Authorization header
+Route::group(['prefix' => 'v1', 'middleware' => 'auth:api'], function () {
+
+    // get all students in classroom API
+    Route::get('/classroom/{id}', 'ClassRoomController@getStudents');
+});
+

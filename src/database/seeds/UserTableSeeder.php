@@ -24,6 +24,7 @@ class UserTableSeeder extends Seeder
         'email'    => 'johnbeck@email.com',
         'password' => Hash::make('passwordone'),
         'role' => 1,
+        'api_token' => str_random(60)
         ));
 
         User::create(array(
@@ -32,6 +33,7 @@ class UserTableSeeder extends Seeder
         'email'    => 'joebiden@email.com',
         'password' => Hash::make('passwordtwo'),
         'role' => 1,
+        'api_token' => str_random(60)
         ));
 
         User::create(array(
@@ -40,6 +42,7 @@ class UserTableSeeder extends Seeder
         'email'    => 'ralphcohen@email.com',
         'password' => Hash::make('passwordthree'),
         'role' => 1,
+        'api_token' => str_random(60)
         ));
 
         //  insert mock students
@@ -49,6 +52,7 @@ class UserTableSeeder extends Seeder
             'email'    => 'one@email.com',
             'password' => Hash::make('passwordone'),
             'role' => 0,
+            'api_token' => str_random(60)
             ));
 
         User::create(array(
@@ -57,6 +61,7 @@ class UserTableSeeder extends Seeder
             'email'    => 'two@email.com',
             'password' => Hash::make('passwordone'),
             'role' => 0,
+            'api_token' => str_random(60)
             ));
 
         User::create(array(
@@ -65,6 +70,7 @@ class UserTableSeeder extends Seeder
             'email'    => 'three@email.com',
             'password' => Hash::make('passwordone'),
             'role' => 0,
+            'api_token' => str_random(60)
             ));
 
         User::create(array(
@@ -73,6 +79,7 @@ class UserTableSeeder extends Seeder
             'email'    => 'four@email.com',
             'password' => Hash::make('passwordone'),
             'role' => 0,
+            'api_token' => str_random(60)
             ));
 
         User::create(array(
@@ -81,6 +88,7 @@ class UserTableSeeder extends Seeder
             'email'    => 'five@email.com',
             'password' => Hash::make('passwordone'),
             'role' => 0,
+            'api_token' => str_random(60)
             ));
 
         User::create(array(
@@ -89,6 +97,7 @@ class UserTableSeeder extends Seeder
             'email'    => 'six@email.com',
             'password' => Hash::make('passwordone'),
             'role' => 0,
+            'api_token' => str_random(60)
             ));
 
         User::create(array(
@@ -97,6 +106,7 @@ class UserTableSeeder extends Seeder
             'email'    => 'seven@email.com',
             'password' => Hash::make('passwordone'),
             'role' => 0,
+            'api_token' => str_random(60)
             ));
 
         User::create(array(
@@ -105,6 +115,7 @@ class UserTableSeeder extends Seeder
             'email'    => 'eight@email.com',
             'password' => Hash::make('passwordone'),
             'role' => 0,
+            'api_token' => str_random(60)
             ));
 
         User::create(array(
@@ -113,6 +124,7 @@ class UserTableSeeder extends Seeder
             'email'    => 'nine@email.com',
             'password' => Hash::make('passwordone'),
             'role' => 0,
+            'api_token' => str_random(60)
             ));
 
         User::create(array(
@@ -121,6 +133,7 @@ class UserTableSeeder extends Seeder
             'email'    => 'ten@email.com',
             'password' => Hash::make('passwordone'),
             'role' => 0,
+            'api_token' => str_random(60)
             ));
         
         User::create(array(
@@ -129,6 +142,7 @@ class UserTableSeeder extends Seeder
             'email'    => 'Larry@homestead.com',
             'password' => Hash::make('zxcasdqwe123'),
             'role' => 1,
+            'api_token' => str_random(60)
             ));
 
     }

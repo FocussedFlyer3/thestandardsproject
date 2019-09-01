@@ -17,8 +17,12 @@
 <script>
     export default {
         created() {
-            console.log('TESTING')
-            window.axios.get('/api/classroom/1').then((response) => {
+            window.axios.get('/api/v1/classroom/1', {
+                headers:{
+                    'Authorization': 'Bearer El3IyF06ATkdMDEHaDBa6Jn8TK1nYZR0Yr2kNhboIEyLOJEYQBgBdf6bnvz4',
+                    'Accept': 'application/json'
+                }
+            }).then((response) => {
                 console.log(response)
             })
         },

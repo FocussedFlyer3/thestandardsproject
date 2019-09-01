@@ -1856,7 +1856,12 @@ __webpack_require__.r(__webpack_exports__);
 //
 /* harmony default export */ __webpack_exports__["default"] = ({
   created: function created() {
-    window.axios.get('/api/classroom/1').then(function (response) {
+    window.axios.get('/api/v1/classroom/1', {
+      headers: {
+        'Authorization': 'Bearer El3IyF06ATkdMDEHaDBa6Jn8TK1nYZR0Yr2kNhboIEyLOJEYQBgBdf6bnvz4',
+        'Accept': 'application/json'
+      }
+    }).then(function (response) {
       console.log(response);
     });
   },

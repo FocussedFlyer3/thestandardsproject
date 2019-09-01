@@ -1,8 +1,8 @@
 @extends('layouts.app')
 
 @section('content')
+<example-component></example-component>
 <div class="container">
-    <example-component></example-component>
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="card">
@@ -15,6 +15,13 @@
                         </div>
                     @endif
                     <?php
+                        //insert user token for API authorization
+                        request()->session()->put('Token', Auth::user()->api_token);
+
+                        if (Auth::user()->api_token) {
+                            echo '<h1>' . request()->session()->get('Token') . '</h1>';
+                        }
+
                         //checks from user table if role is teacher
                         if(Auth::user()->role == 1){   
 

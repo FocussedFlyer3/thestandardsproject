@@ -9,8 +9,8 @@ use Illuminate\Http\Response;
 class ClassRoomController extends Controller {
 
     public function getStudents ($classID) {
-        info('in controller with class id :' . $classID);
 
+        // TODO get all user (students) from this class
         return response($classID, Response::HTTP_OK);
     }
 }
