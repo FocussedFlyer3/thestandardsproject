@@ -14,3 +14,11 @@
 Auth::routes();
 
 Route::get('/', 'HomeController@index')->name('home');
+
+Route::post('/logout', 'Auth\LoginController@logout')->name('logout');
+Route::get('logout', 'Auth\LoginController@logout');
+
+Route::get('/clear-cache', function() {
+    Artisan::call('cache:clear');
+    redirect('/');
+});
