@@ -21,11 +21,12 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 
 // API call without Authorization header
 Route::group(['prefix' => 'v1', 'middleware' => 'web'], function () {
-    // get user account info
-    //  Route::get('/account', 'AccountController@getInfo');
+
+    // get user account's info (token)
+    Route::get('/account', 'AccountController@getToken');
 });
 
-//  API call with Authorization header
+// API call with Authorization header
 Route::group(['prefix' => 'v1', 'middleware' => 'auth:api'], function () {
 
     // get all students in classroom API

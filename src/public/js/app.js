@@ -1856,13 +1856,30 @@ __webpack_require__.r(__webpack_exports__);
 //
 /* harmony default export */ __webpack_exports__["default"] = ({
   created: function created() {
+    //  Set user account's token if do not exit
+    if (!localStorage.getItem('account')) {
+      window.axios.get('/api/v1/account').then(function (response) {
+        var account = {
+          'account': {
+            'token': 'Bearer ' + response.data.account.token
+          }
+        };
+        console.log(JSON.stringify(account));
+        localStorage.setItem('account', JSON.stringify(account));
+      })["catch"](function (error) {
+        console.log(error);
+      });
+    }
+
     window.axios.get('/api/v1/classroom/1', {
       headers: {
-        'Authorization': 'Bearer El3IyF06ATkdMDEHaDBa6Jn8TK1nYZR0Yr2kNhboIEyLOJEYQBgBdf6bnvz4',
+        'Authorization': JSON.parse(localStorage.getItem('account')).account.token,
         'Accept': 'application/json'
       }
     }).then(function (response) {
       console.log(response);
+    })["catch"](function (error) {
+      console.log(error);
     });
   },
   mounted: function mounted() {
