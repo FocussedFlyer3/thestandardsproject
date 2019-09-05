@@ -18,6 +18,7 @@ window.Vue = require('vue');
  */
 
 import Example from './components/ExampleComponent.vue'
+import StudentsTable from './components/StudentsTable.vue'
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to
@@ -28,6 +29,7 @@ import Example from './components/ExampleComponent.vue'
 const app = new Vue({
     el: '#app',
     components: {
-        'example-component': Example
+        'example-component': Example,
+        'students-table': StudentsTable
     }
 });

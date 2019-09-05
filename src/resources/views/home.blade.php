@@ -43,7 +43,7 @@
                             foreach ($classes as $class) {
                             
                             echo '<tr>';
-                            echo '<td><a href="#">', $class['class_id'], '</a></td>';
+                            echo '<td><a href="' .route('class', ['classID' => $class['class_id']]).'">', $class['class_id'], '</a></td>';
                             echo '<td>', $class['subject'], '</td>';
                             echo '<td>', $class['grade'], '</td>';
                             echo '<td>', date('H:i:s', strtotime($class['starts_at'])), '</td>';
