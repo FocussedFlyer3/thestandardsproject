@@ -14,7 +14,7 @@ class Classes extends Model
     ];  
 
     public function users(){
-        return $this->belongsToMany('App\User', 'class_user', 'class_id', 'user_id');
+        return $this->belongsToMany('App\User', 'class_user', 'class_id', 'user_id')->using('App\ClassUser');
     }
 
 }
