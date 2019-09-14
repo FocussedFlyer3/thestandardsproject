@@ -25,7 +25,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $hidden = [
-        'password', 'remember_token',
+        'password', 'remember_token', 'api_token', 'email_verified_at', 'pivot', 'created_at', 'updated_at'
     ];
 
     /**
@@ -34,11 +34,15 @@ class User extends Authenticatable
      * @var array
      */
     protected $casts = [
-        'email_verified_at' => 'datetime',
+        'email_verified_at' => 'datetime'
     ];
 
     public function classes(){
-        return $this->belongsToMany('App\Classes', 'class_user', 'user_id', 'class_id')->using('App\ClassUser');
+        return $this->belongsToMany(Classes::class, 'class_user', 'user_id', 'class_id')->using(ClassUser::class);
+    }
+
+    public function scores(){
+        return $this->hasMany(Score::class,'user_id', 'id');
     }
 
 }

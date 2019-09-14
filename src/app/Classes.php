@@ -9,12 +9,22 @@ class Classes extends Model
     protected $table = 'classes';
     protected $primaryKey = 'class_id';
     public $timestamps = false;
+
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var array
+     */
     protected $fillable = [
         'subject','room'
     ];  
 
     public function users(){
-        return $this->belongsToMany('App\User', 'class_user', 'class_id', 'user_id')->using('App\ClassUser');
+        return $this->belongsToMany(User::class, 'class_user', 'class_id', 'user_id')->using(ClassUser::class);
+    }
+
+    public function scores(){
+        return $this->hasMany(Score::class, 'class_id', 'class_id');
     }
 
 }
