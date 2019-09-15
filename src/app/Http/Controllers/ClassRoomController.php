@@ -9,23 +9,20 @@ use Illuminate\Http\Response;
 
 class ClassRoomController extends Controller {
 
-    public function getStudents ($classID) {
+    public function getDetails ($classID) {
         // obtain class info
-        $class = Classes::find($classID);
+        $class = Classes::with('scores.users')->find($classID);
+
+        // hide redundant attributes
+        $details = $class->makeHidden(['scores']);
 
         //get students scores
         $scores = $this->getScores($class);
 
-        // hide redundant attributes
-        foreach($class->users as $user){
-            $user->makeHidden(['role']);
-        }
-        $data = $class;
-
         // response JSON
         $classroom = [
             'classroom' => [
-                'details' => $data,
+                'details' => $details,
                 'scores' => $scores
             ]
         ];
@@ -48,10 +45,13 @@ class ClassRoomController extends Controller {
         // compute scores
         foreach ($studentScores as $index => $scores) {
             $totalScore = 0;
-            $currentUser = User::find($index);
+            $currentUser = $scores->pluck('users')->unique()[0];     // get current users details
             foreach ($scores as $score) {
                 $totalScore += $score->score;
             }
+
+            // insert total scores into users details
+            $currentUser->setAttribute('totalScore', $totalScore);
 
             switch (true) {
                 case $totalScore < 40.00:

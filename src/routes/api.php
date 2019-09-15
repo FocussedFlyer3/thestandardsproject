@@ -30,6 +30,6 @@ Route::group(['prefix' => 'v1', 'middleware' => 'web'], function () {
 Route::group(['prefix' => 'v1', 'middleware' => 'auth:api'], function () {
 
     // get all students in classroom API
-    Route::get('/classroom/{id}', 'ClassRoomController@getStudents');
+    Route::get('/classroom/{id}', 'ClassRoomController@getDetails');
 });
 
