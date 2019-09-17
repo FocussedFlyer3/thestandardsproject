@@ -9,7 +9,7 @@ use Illuminate\Http\Response;
 
 class ClassRoomController extends Controller {
 
-    public function getDetails ($classID) {
+    public function getClassDetails ($classID) {
         // obtain class info
         $class = Classes::with('scores.users')->find($classID);
 
