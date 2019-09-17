@@ -4,23 +4,28 @@
 <script>
     export default {
         created() {
-            //  Set user account's token if do not exit
+            //  Set user account's info if do not exit
             if (!localStorage.getItem('account')) {
-                this.cacheToken()
+                this.cacheInfo()
             }
         },
         mounted() {
             console.log('Component mounted.')
         },
         methods: {
-            cacheToken () {
+            cacheInfo () {
                 window.axios.get('/api/v1/account').then((response) => {
                     let account = {
                         'account': {
-                            'token': 'Bearer ' + response.data.account.token
+                            'token': 'Bearer ' + response.data.account.api_token,
+                            'email': response.data.account.email,
+                            'id': response.data.account.id,
+                            'name': response.data.account.name,
+                            'role': response.data.account.role,
+                            'username': response.data.account.username
                         }
                     }
-                    console.log(JSON.stringify(account))
+
                     localStorage.setItem('account', JSON.stringify(account))
                 }).catch((error) => {
                     console.log(error)

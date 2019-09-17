@@ -23,13 +23,13 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 Route::group(['prefix' => 'v1', 'middleware' => 'web'], function () {
 
     // get user account's info (token)
-    Route::get('/account', 'AccountController@getToken');
+    Route::get('/account', 'AccountController@getAccountInfo');
 });
 
 // API call with Authorization header
 Route::group(['prefix' => 'v1', 'middleware' => 'auth:api'], function () {
 
     // get all students in classroom API
-    Route::get('/classroom/{id}', 'ClassRoomController@getDetails');
+    Route::get('/classroom/{id}', 'ClassRoomController@getClassDetails');
 });
 

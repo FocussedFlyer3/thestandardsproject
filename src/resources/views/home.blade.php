@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-<example-component></example-component>
+<cache-component></cache-component>
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-md-8">
@@ -15,12 +15,8 @@
                         </div>
                     @endif
                     <?php
-                        //insert user token for API authorization
-                        request()->session()->put('Token', Auth::user()->api_token);
-
-                        if (Auth::user()->api_token) {
-                            echo '<h1>' . request()->session()->get('Token') . '</h1>';
-                        }
+                        //insert user ID for Vue (*IMPORTANT)
+                        request()->session()->put('ID', Auth::user()->id);
 
                         //checks from user table if role is teacher
                         if(Auth::user()->role == 1){   

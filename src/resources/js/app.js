@@ -17,7 +17,7 @@ window.Vue = require('vue');
  * Eg. ./components/ExampleComponent.vue -> <example-component></example-component>
  */
 
-import Example from './components/ExampleComponent.vue'
+import Cache from './components/Cache.vue'
 import StudentsTable from './components/StudentsTable.vue'
 
 /**
@@ -29,7 +29,7 @@ import StudentsTable from './components/StudentsTable.vue'
 const app = new Vue({
     el: '#app',
     components: {
-        'example-component': Example,
+        'cache-component': Cache,
         'students-table': StudentsTable
     }
 });
