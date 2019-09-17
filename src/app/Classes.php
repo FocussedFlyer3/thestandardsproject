@@ -11,6 +11,15 @@ class Classes extends Model
     public $timestamps = false;
 
     /**
+     * The attributes that should be hidden for arrays.
+     *
+     * @var array
+     */
+    protected $hidden = [
+        'pivot'
+    ];
+
+    /**
      * The attributes that are mass assignable.
      *
      * @var array

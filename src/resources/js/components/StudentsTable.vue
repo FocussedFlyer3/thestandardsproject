@@ -31,10 +31,11 @@ export default {
     },
     created () {
         this.loadClassList()
+        this.getClasses()
     },
     methods: {
         loadClassList() {
-            window.axios.get(`/api/v1/classroom/${this.classID}`, {
+            window.axios.get(`/api/v1/${JSON.parse(localStorage.getItem('account')).account.id}/classroom/${this.classID}`, {
                 headers:{
                     'Authorization': JSON.parse(localStorage.getItem('account')).account.token,
                     'Accept': 'application/json'
@@ -43,6 +44,18 @@ export default {
                 console.log(response)
                 this.students = response.data.classroom.students
                 this.classDetails = response.data.classroom.details
+            }).catch((error) => {
+                console.log(error)
+            })
+        },
+        getClasses() {
+            window.axios.get(`/api/v1/${JSON.parse(localStorage.getItem('account')).account.id}/classroom`, {
+                headers:{
+                    'Authorization': JSON.parse(localStorage.getItem('account')).account.token,
+                    'Accept': 'application/json'
+                }
+            }).then((response) => {
+                console.log(response)
             }).catch((error) => {
                 console.log(error)
             })

@@ -1915,12 +1915,13 @@ __webpack_require__.r(__webpack_exports__);
   },
   created: function created() {
     this.loadClassList();
+    this.getClasses();
   },
   methods: {
     loadClassList: function loadClassList() {
       var _this = this;
 
-      window.axios.get("/api/v1/classroom/".concat(this.classID), {
+      window.axios.get("/api/v1/".concat(JSON.parse(localStorage.getItem('account')).account.id, "/classroom/").concat(this.classID), {
         headers: {
           'Authorization': JSON.parse(localStorage.getItem('account')).account.token,
           'Accept': 'application/json'
@@ -1929,6 +1930,18 @@ __webpack_require__.r(__webpack_exports__);
         console.log(response);
         _this.students = response.data.classroom.students;
         _this.classDetails = response.data.classroom.details;
+      })["catch"](function (error) {
+        console.log(error);
+      });
+    },
+    getClasses: function getClasses() {
+      window.axios.get("/api/v1/".concat(JSON.parse(localStorage.getItem('account')).account.id, "/classroom"), {
+        headers: {
+          'Authorization': JSON.parse(localStorage.getItem('account')).account.token,
+          'Accept': 'application/json'
+        }
+      }).then(function (response) {
+        console.log(response);
       })["catch"](function (error) {
         console.log(error);
       });

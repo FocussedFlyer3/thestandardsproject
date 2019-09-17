@@ -29,7 +29,10 @@ Route::group(['prefix' => 'v1', 'middleware' => 'web'], function () {
 // API call with Authorization header
 Route::group(['prefix' => 'v1', 'middleware' => 'auth:api'], function () {
 
-    // get all students in classroom API
-    Route::get('/classroom/{id}', 'ClassRoomController@getClassDetails');
+    // get all classrooms
+    Route::get('{userID}/classroom', 'ClassRoomController@getClasses');
+
+    // get classroom details
+    Route::get('{userID}/classroom/{classID}', 'ClassRoomController@getClassDetails');
 });
 
