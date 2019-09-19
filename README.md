@@ -11,5 +11,5 @@ Authors: Chee Kong Wong, Hong Lin Wei <br />
 
   * src/
 
-     production source code.
+     source code.
      <br />  
