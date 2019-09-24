@@ -24,6 +24,7 @@ Route::group(['prefix' => 'v1', 'middleware' => 'web'], function () {
 
     // get user account's info (token)
     Route::get('/account', 'AccountController@getAccountInfo');
+    Route::post('/account/login', 'AccountController@loginEmail');
 });
 
 // API call with Authorization header
