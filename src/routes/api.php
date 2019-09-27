@@ -24,6 +24,8 @@ Route::group(['prefix' => 'v1', 'middleware' => 'web'], function () {
 
     // get user account's info (token)
     Route::get('/account', 'AccountController@getAccountInfo');
+
+    // login using API to authenticate user
     Route::post('/account/login', 'AccountController@loginEmail');
 });
 

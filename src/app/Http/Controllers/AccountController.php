@@ -61,11 +61,11 @@ class AccountController extends Controller
             return response($error, 401);
         }
 
-        // reveal hidden attributes
+        // reveal hidden attributes 
         $details = $user->makeVisible(['api_token']);
 
         $account = [
-            'account' => $user
+            'account' => $details
         ];
         $response = json_encode($account);
 
