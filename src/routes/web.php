@@ -15,8 +15,6 @@ Auth::routes();
 
 Route::get('/', 'HomeController@index')->name('home');
 
-Route::get('/login', 'HomeController@login');
-
 //  Add Routes Here (web url)
 Route::get('/class/{classID}', 'HomeController@getClassRoom')->name('class');
 
