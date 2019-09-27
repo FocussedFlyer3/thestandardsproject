@@ -12,7 +12,6 @@
 */
 
 Auth::routes();
-
 Route::get('/', 'HomeController@index')->name('home');
 
 //  Add Routes Here (web url)
