@@ -1847,6 +1847,8 @@ __webpack_require__.r(__webpack_exports__);
     if (!localStorage.getItem('account')) {
       this.cacheInfo();
     }
+
+    this.login();
   },
   mounted: function mounted() {
     console.log('Component mounted.');
@@ -1854,6 +1856,33 @@ __webpack_require__.r(__webpack_exports__);
   methods: {
     cacheInfo: function cacheInfo() {
       window.axios.get('/api/v1/account').then(function (response) {
+        var account = {
+          'account': {
+            'token': 'Bearer ' + response.data.account.api_token,
+            'email': response.data.account.email,
+            'id': response.data.account.id,
+            'name': response.data.account.name,
+            'role': response.data.account.role,
+            'username': response.data.account.username
+          }
+        };
+        localStorage.setItem('account', JSON.stringify(account));
+      })["catch"](function (error) {
+        console.log(error);
+      });
+    },
+    login: function login() {
+      var info = {
+        'account': {
+          'email': 'joebiden@email.com',
+          'password': 'passwordtwo'
+        }
+      };
+      window.axios.post('/api/v1/account/login', info, {
+        headers: {
+          'Content': 'application/json'
+        }
+      }).then(function (response) {
         var account = {
           'account': {
             'token': 'Bearer ' + response.data.account.api_token,
