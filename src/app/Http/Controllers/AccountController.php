@@ -9,8 +9,21 @@ use App\User;
 use Auth;
 
 class AccountController extends Controller
-{
-    // Get user's token
+{   
+    /* 
+    |--------------------------------------------------------------------------
+    | Accounts Controller
+    |--------------------------------------------------------------------------
+    |
+    | This controller is responsible for obtaining user's account info through email login.
+    |
+    */
+
+    /**
+     * Get user's token
+     *
+     * @return HTTP response with user's token
+     */
     public function getAccountInfo(Request $request) {
         $userID = $request->session()->get('ID');
         $user = User::find($userID);
@@ -25,12 +38,18 @@ class AccountController extends Controller
 
         return response($response, Response::HTTP_OK);
     }
-    
+
+    /**
+     * Authenticate user on email login
+     *
+     * @return HTTP response with user's account info
+     */
     // API on login to authenticate and obtain user info
     public function loginEmail(Request $request) {
+        // search for user
         $user = User::whereEmail($request->input('account.email'))->first();
 
-        // user not found
+        // user not found (invalid)
         if ($user == NULL) {
             $error = [
                 'error' => [
@@ -44,7 +63,7 @@ class AccountController extends Controller
         
         $credentials = $request->input('account');
 
-        // password not match
+        // password not match (invalid password)
         if (Auth::once($credentials)) {
             $user = Auth::getUser();
         } else {

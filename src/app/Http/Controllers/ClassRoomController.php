@@ -8,13 +8,29 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 
 class ClassRoomController extends Controller {
+     /* 
+    |--------------------------------------------------------------------------
+    | Class Room Controller
+    |--------------------------------------------------------------------------
+    |
+    | This controller is responsible for obtaining user enrolled classes info.
+    |
+    */
 
+    /**
+     * Get all user's classes enrolled in
+     *
+     * @return HTTP response with user's classes
+     */
     public function getClasses ($userID) {
+        // find all user's clases
         $user = User::with('classes')->find($userID);
+
+        // invalid user
         if ($user == null) {
             $error = [
                 'error' => [
-                    'message' => 'Error: user not found for user id: '.$userID,
+                    'message' => 'User not found for user id: '.$userID,
                     'code' => 400
                 ]
             ];
@@ -45,13 +61,25 @@ class ClassRoomController extends Controller {
         return response($response, Response::HTTP_OK);
     } 
 
+    /**
+     * Get a user class details
+     * Details depends on role:
+     *  1) Student
+     *      - all scores obtain in the class
+     * 
+     *  2) Teacher 
+     *      - all class details (time, venue and so on)
+     *      - all of student scores 
+     *
+     * @return HTTP response with user's class details
+     */
     public function getClassDetails ($userID, $classID) {
         // obtain class info
         $class = Classes::with('scores.users')->find($classID);
         if ($class == null) {
             $error = [
                 'error' => [
-                    'message' => 'Error: class id ('.$classID.') not found for user id: '.$userID,
+                    'message' => 'Class id ('.$classID.') not found for user id: '.$userID,
                     'code' => 400
                 ]
             ];
@@ -76,6 +104,11 @@ class ClassRoomController extends Controller {
         return response($response, Response::HTTP_OK);
     }
 
+    /**
+     * Local funciton to obtain and compute class scores
+     *
+     * @return JSON encoded with all the scores details
+     */
     private function getScores ($class) {
         $proeficent = 0;
         $proeficentStudents = [];
