@@ -13,7 +13,7 @@ class ScoreTableSeeder extends Seeder
     {
         // resets tables
         DB::statement('SET FOREIGN_KEY_CHECKS=0');  
-        DB::table('users')->truncate();
+        DB::table('scores')->truncate();
 
         //  insert mock scores  
         DB::table('scores')->insert(array(
