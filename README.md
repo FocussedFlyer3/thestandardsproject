@@ -4,12 +4,12 @@ Learning Management System (LMS) that will store multimedia “modules” and pr
 Authors: Chee Kong Wong, Hong Lin Wei <br />
 
 # DIRECTORIES:
-  * [docs/](../docs/)
+  * [docs/](./docs/)
 
     Documentation of system.
     <br />  
 
-  * [src/](../src/)
+  * [src/](./src/)
 
      source code.
      <br />  
