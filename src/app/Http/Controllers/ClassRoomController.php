@@ -74,6 +74,14 @@ class ClassRoomController extends Controller {
      * @return HTTP response with user's class details
      */
     public function getClassDetails ($userID, $classID) {
+        // check user's role
+        $user = User::find($userID);
+        switch ($user->role) {
+            case 0: $role = 0; break;   // student
+            case 1: $role = 1; break;   // teacher
+            default: $role = null;
+        }
+
         // obtain class info
         $class = Classes::with('scores.users')->find($classID);
         if ($class == null) {
@@ -89,8 +97,12 @@ class ClassRoomController extends Controller {
         // hide redundant attributes
         $details = $class->makeHidden(['scores']);
 
-        //get students scores
-        $scores = $this->getScores($class);
+        // get students scores
+        if ($role == 0) {
+            $scores = $this->getScore($user); // get a student score
+        } else if ($role == 1) {
+            $scores = $this->getAllScores($class, $role);  // get all student scores
+        }
 
         // response JSON
         $classroom = [
@@ -109,7 +121,7 @@ class ClassRoomController extends Controller {
      *
      * @return JSON encoded with all the scores details
      */
-    private function getScores ($class) {
+    private function getAllScores ($class) {
         $proeficent = 0;
         $proeficentStudents = [];
         $almostProeficent = 0;
@@ -147,6 +159,66 @@ class ClassRoomController extends Controller {
                     $proeficent++;
                     break;
             }
+        }
+
+        $result = [
+            'proeficent' => [
+                'count' => $proeficent,
+                'users' => $proeficentStudents
+            ],
+            'almostProeficent' => [
+                'count' => $almostProeficent,
+                'users' => $almostProeficentStudents
+            ],
+            'notProeficent' => [
+                'count' => $notProeficent,
+                'users' => $notProeficentStudents
+            ]
+        ];
+
+        return $result;
+    }
+
+    /**
+     * Local funciton to obtain and compute a student class score
+     *
+     * @return JSON encoded with student scores details in this class
+     */
+    private function getScore ($user) {
+        $proeficent = 0;
+        $proeficentStudents = [];
+        $almostProeficent = 0;
+        $almostProeficentStudents = [];
+        $notProeficent = 0;
+        $notProeficentStudents = [];
+
+        // get this student scores
+        $userScores = $user->scores;
+
+        // compute scores
+        $totalScore = 0;
+        foreach ($userScores as $index => $scores) {
+            $totalScore += $scores->score;
+        }
+
+        // insert total scores into users details
+        $user->setAttribute('totalScore', $totalScore);
+
+        switch (true) {
+            case $totalScore < 40.00:
+                $notProeficentStudents[$notProeficent] = $user;
+                $notProeficent++;
+                break;
+                
+            case $totalScore < 75.00:
+                $almostProeficentStudents[$almostProeficent] = $user;
+                $almostProeficent++;
+                break;
+                
+            case $totalScore > 75.00:
+                $proeficentStudents[$proeficent] = $user;
+                $proeficent++;
+                break;
         }
 
         $result = [
