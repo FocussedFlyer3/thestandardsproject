@@ -20,5 +20,7 @@ class DatabaseSeeder extends Seeder
         $this->call(ClassUserTableSeeder::class);
         $this->call(ScoreTableSeeder::class); 
         $this->call(ModulesTableSeeder::class);
+        $this->call(ModuleScoreTableSeeder::class);
+        $this->call(ModuleClassTableSeeder::class);
     }
 }
