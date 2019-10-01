@@ -48,10 +48,10 @@ Route::group(['prefix' => 'v1', 'middleware' => 'web'], function () {
 */
 Route::group(['prefix' => 'v1', 'middleware' => 'auth:api'], function () {
 
-    // get all classrooms
+    // classrooms API
     Route::get('{userID}/classroom', 'ClassRoomController@getClasses');
-
-    // get classroom details
     Route::get('{userID}/classroom/{classID}', 'ClassRoomController@getClassDetails');
+    Route::get('{userID}/classroom/{classID}/{benchmark}', 'ClassRoomController@getScoreDetails');
+
 });
 

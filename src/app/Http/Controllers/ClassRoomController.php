@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Classes;
 use App\User;
+use App\Module;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 
@@ -59,7 +60,82 @@ class ClassRoomController extends Controller {
         $response = json_encode($response);
 
         return response($response, Response::HTTP_OK);
-    } 
+    }
+
+    /**
+     * Get a users score details
+     * @param  $level is the benchmark (Proficient, Almost Proficient, Not Proficient)
+     * Details depends on role:
+     *  1) Student
+     *      - get only user scores details on each module
+     * 
+     *  2) Teacher 
+     *      - all students score details on each module
+     *
+     * @return HTTP response with user's class details
+     */
+    public function getScoreDetails ($userID, $classID, $benchmark) {
+
+        $user = User::find($userID);
+
+        // check user's role
+        switch ($user->role) {
+            case 0: $role = 0; break;   // student
+            case 1: $role = 1; break;   // teacher
+            default: $role = null;
+        }
+
+        // get all modules and scores for this class
+        $modules = Classes::with('modules.scores.users')->find($classID);
+        $modules->makeHidden(['starts_at', 'ends_at', 'room', 'teacher_id']);
+        //  info($modules);
+
+        // check proficient level
+        switch ($benchmark) {
+            case 'p': $level = 0; break;    // proficient 
+            case 'ap': $level = 1; break;   // almost proficient 
+            case 'np': $level = 2; break;   // not proficient 
+            default: $level = null;
+        }
+
+        // filter students
+        $result = $this->filterResult($modules, $level);
+
+        $response = json_encode($result);
+
+        return response($response, Response::HTTP_OK);
+    }
+
+    private function filterResult ($modules, $level) {
+        $allStandards = $this->getAllScores($modules);
+        switch ($level){
+            case 0: $students = $allStandards['proficient']; break;
+            case 1: $students = $allStandards['almostProficient']; break;
+            case 2: $students = $allStandards['notProficient']; break;
+        }
+
+        $count = 0;
+        foreach($students['users'] as $student){
+            $ids[$count++] = $student['id'];
+        }
+        info($ids);
+
+        $modulesString = json_decode(json_encode($modules));
+        foreach($modulesString->modules as $index => $module){
+            $temp = [];
+            $count = 0;
+            foreach($module->scores as $score){
+
+                if (in_array(json_decode($score->user_id,true), $ids, true)) {
+                    $temp[$count++] = $score;
+                }
+            }
+            $module->scores = $temp;
+
+        }
+
+        return $modulesString;
+    }
 
     /**
      * Get a user class details
@@ -122,12 +198,12 @@ class ClassRoomController extends Controller {
      * @return JSON encoded with all the scores details
      */
     private function getAllScores ($class) {
-        $proeficent = 0;
-        $proeficentStudents = [];
-        $almostProeficent = 0;
-        $almostProeficentStudents = [];
-        $notProeficent = 0;
-        $notProeficentStudents = [];
+        $proficient = 0;
+        $proficientStudents = [];
+        $almostProficient = 0;
+        $almostProficientStudents = [];
+        $notProficient = 0;
+        $notProficientStudents = [];
 
         // get all students scores
         $studentScores = $class->scores->groupBy('user_id');
@@ -145,34 +221,34 @@ class ClassRoomController extends Controller {
 
             switch (true) {
                 case $totalScore < 40.00:
-                    $notProeficentStudents[$notProeficent] = $currentUser;
-                    $notProeficent++;
+                    $notProficientStudents[$notProficient] = $currentUser;
+                    $notProficient++;
                     break;
                 
                 case $totalScore < 75.00:
-                    $almostProeficentStudents[$almostProeficent] = $currentUser;
-                    $almostProeficent++;
+                    $almostProficientStudents[$almostProficient] = $currentUser;
+                    $almostProficient++;
                     break;
                 
                 case $totalScore > 75.00:
-                    $proeficentStudents[$proeficent] = $currentUser;
-                    $proeficent++;
+                    $proficientStudents[$proficient] = $currentUser;
+                    $proficient++;
                     break;
             }
         }
 
         $result = [
-            'proeficent' => [
-                'count' => $proeficent,
-                'users' => $proeficentStudents
+            'proficient' => [
+                'count' => $proficient,
+                'users' => $proficientStudents
             ],
-            'almostProeficent' => [
-                'count' => $almostProeficent,
-                'users' => $almostProeficentStudents
+            'almostProficient' => [
+                'count' => $almostProficient,
+                'users' => $almostProficientStudents
             ],
-            'notProeficent' => [
-                'count' => $notProeficent,
-                'users' => $notProeficentStudents
+            'notProficient' => [
+                'count' => $notProficient,
+                'users' => $notProficientStudents
             ]
         ];
 
