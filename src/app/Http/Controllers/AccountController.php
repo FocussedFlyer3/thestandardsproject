@@ -46,14 +46,16 @@ class AccountController extends Controller
      */
     // API on login to authenticate and obtain user info
     public function loginEmail(Request $request) {
+        $data = json_decode($request->getContent(), true);
+        info($data);
         // search for user
-        $user = User::whereEmail($request->input('account.email'))->first();
+        $user = User::whereEmail($data['account']['email'])->first();
 
         // user not found (invalid)
         if ($user == NULL) {
             $error = [
                 'error' => [
-                    'message' => 'User not found for: '.$request->input('account.email'),
+                    'message' => 'User not found for: '.$data['account']['email'],
                     'code' => 400
                 ]
             ];
@@ -61,15 +63,12 @@ class AccountController extends Controller
             return response($error, Response::HTTP_BAD_REQUEST);
         }
         
-        $credentials = $request->input('account');
+        $credentials = $data['account'];
 
         // password not match (invalid password)
         if (Auth::once($credentials)) {
             $user = Auth::getUser();
         } else {
-            info($request);
-            info($request->input('input.password'));
-            info(Hash::make($request->input('account.password')));
             $error = [
                 'error' => [
                     'message' => 'Email or Password incorrect, try again!',
