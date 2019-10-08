@@ -71,6 +71,56 @@ class ScoreTableSeeder extends Seeder
                 'user_id' => 13,
                 'score' => 66.75,
                 'class_id' => 1
+            ),
+            array(
+                'user_id' => 4,
+                'score' => 0,
+                'class_id' => 1
+            ),
+            array(
+                'user_id' => 5,
+                'score' => 0,
+                'class_id' => 1
+            ),
+            array(
+                'user_id' => 6,
+                'score' => 0,
+                'class_id' => 1
+            ),
+            array(
+                'user_id' => 7,
+                'score' => 0,
+                'class_id' => 1
+            ),
+            array(
+                'user_id' => 8,
+                'score' => 0,
+                'class_id' => 1
+            ),
+            array(
+                'user_id' => 4,
+                'score' => 0,
+                'class_id' => 1
+            ),
+            array(
+                'user_id' => 7,
+                'score' => 0,
+                'class_id' => 1
+            ),
+            array(
+                'user_id' => 9,
+                'score' => 0,
+                'class_id' => 1
+            ),
+            array(
+                'user_id' => 10,
+                'score' => 0,
+                'class_id' => 1
+            ),
+            array(
+                'user_id' => 11,
+                'score' => 0,
+                'class_id' => 1
             )
         ));
     }

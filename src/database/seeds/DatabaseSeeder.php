@@ -22,5 +22,7 @@ class DatabaseSeeder extends Seeder
         $this->call(ModulesTableSeeder::class);
         $this->call(ModuleScoreTableSeeder::class);
         $this->call(ModuleClassTableSeeder::class);
+        $this->call(TasksTableSeeder::class);
+        $this->call(TaskUserTableSeeder::class);
     }
 }
