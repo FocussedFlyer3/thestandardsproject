@@ -47,7 +47,7 @@ class AccountController extends Controller
     // API on login to authenticate and obtain user info
     public function loginEmail(Request $request) {
         $data = json_decode($request->getContent(), true);
-        info($data);
+
         // search for user
         $user = User::whereEmail($data['account']['email'])->first();
 

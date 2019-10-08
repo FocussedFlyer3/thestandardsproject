@@ -64,7 +64,9 @@ class ClassRoomController extends Controller {
 
     /**
      * Get a users score details
-     * @param  $level is the benchmark (Proficient, Almost Proficient, Not Proficient)
+     * @param $userID is user's id in system
+     * @param $classID is the class's id in system
+     * @param $benchmark is the benchmark (Proficient, Almost Proficient, Not Proficient)
      * Details depends on role:
      *  1) Student
      *      - get only user scores details on each module
@@ -98,7 +100,7 @@ class ClassRoomController extends Controller {
             default: $level = null;
         }
 
-        // filter students
+        // filter students base on levels specified
         $result = $this->filterResult($modules, $level);
 
         $response = json_encode($result);
@@ -106,6 +108,13 @@ class ClassRoomController extends Controller {
         return response($response, Response::HTTP_OK);
     }
 
+    /**
+     * Local funciton to filter results base on level specified
+     * @param $modules is an array of targets to be achieved in class
+     * @param $level is the benchmark (Proficient, Almost Proficient, Not Proficient)
+     * 
+     * @return filtered JSON result
+     */
     private function filterResult ($modules, $level) {
         $allStandards = $this->getAllScores($modules);
         switch ($level){
@@ -118,7 +127,6 @@ class ClassRoomController extends Controller {
         foreach($students['users'] as $student){
             $ids[$count++] = $student['id'];
         }
-        info($ids);
 
         $modulesString = json_decode(json_encode($modules));
         foreach($modulesString->modules as $index => $module){
