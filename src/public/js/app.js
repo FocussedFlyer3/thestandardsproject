@@ -1874,11 +1874,11 @@ __webpack_require__.r(__webpack_exports__);
     login: function login() {
       var info = {
         'account': {
-          'email': 'joebiden@email.com',
-          'password': 'passwordtwo'
+          'email': 'johnbeck@email.com',
+          'password': 'passwordone'
         }
       };
-      window.axios.post('/api/v1/account/login', info, {
+      window.axios.post('/api/v1/account/login', JSON.stringify(info), {
         headers: {
           'Content': 'application/json'
         }

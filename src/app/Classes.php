@@ -16,7 +16,8 @@ class Classes extends Model
      * @var array
      */
     protected $hidden = [
-        'pivot'
+        'pivot',
+        'scores'
     ];
 
     /**
@@ -36,4 +37,7 @@ class Classes extends Model
         return $this->hasMany(Score::class, 'class_id', 'class_id');
     }
 
+    public function modules(){
+        return $this->belongsToMany(Module::class, 'module_class' ,'class_id', 'module_id')->using(ModuleClass::class);
+    }
 }

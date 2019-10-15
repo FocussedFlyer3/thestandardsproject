@@ -9,8 +9,21 @@ use App\User;
 use Auth;
 
 class AccountController extends Controller
-{
-    // Get user's token
+{   
+    /* 
+    |--------------------------------------------------------------------------
+    | Accounts Controller
+    |--------------------------------------------------------------------------
+    |
+    | This controller is responsible for obtaining user's account info through email login.
+    |
+    */
+
+    /**
+     * Get user's token
+     *
+     * @return HTTP response with user's token
+     */
     public function getAccountInfo(Request $request) {
         $userID = $request->session()->get('ID');
         $user = User::find($userID);
@@ -25,40 +38,47 @@ class AccountController extends Controller
 
         return response($response, Response::HTTP_OK);
     }
-    
+
+    /**
+     * Authenticate user on email login
+     *
+     * @return HTTP response with user's account info
+     */
     // API on login to authenticate and obtain user info
     public function loginEmail(Request $request) {
-        $user = User::whereEmail($request->input('account.email'))->first();
+        $data = json_decode($request->getContent(), true);
 
-        // user not found
+        // search for user
+        $user = User::whereEmail($data['account']['email'])->first();
+
+        // user not found (invalid)
         if ($user == NULL) {
             $error = [
                 'error' => [
-                    'message' => 'User not found for: '.$request->input('account.email'),
+                    'message' => 'User not found for: '.$data['account']['email'],
                     'code' => 400
                 ]
             ];
+            Log::info('User failed to log in: '.json_encode($data));
 
             return response($error, Response::HTTP_BAD_REQUEST);
         }
         
-        $credentials = $request->input('account');
+        $credentials = $data['account'];
 
-        // password not match
+        // password not match (invalid password)
         if (Auth::once($credentials)) {
             $user = Auth::getUser();
         } else {
-            info($request);
-            info($request->input('input.password'));
-            info(Hash::make($request->input('account.password')));
             $error = [
                 'error' => [
                     'message' => 'Email or Password incorrect, try again!',
-                    'code' => 401
+                    'code' => 400
                 ]
             ];
+            Log::info('User failed to log in: '.json_encode($data));
 
-            return response($error, 401);
+            return response($error, Response::HTTP_BAD_REQUEST);
         }
 
         // reveal hidden attributes 

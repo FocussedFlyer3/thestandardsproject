@@ -27,7 +27,7 @@ class ClassTableSeeder extends Seeder
         Classes::insert($data);*/
 
         Classes::create(array(
-        'grade' => 6,
+        'grade' => 5,
         'subject' => 'Math',
         'teacher_id' => '1',
         'starts_at' => '10:00:00',
@@ -37,7 +37,7 @@ class ClassTableSeeder extends Seeder
         ));
 
         Classes::create(array(
-        'grade'     => 6,
+        'grade'     => 5,
         'subject' => 'Math',
         'teacher_id'    => '1',
         'starts_at' => '11:00:00',
@@ -57,7 +57,7 @@ class ClassTableSeeder extends Seeder
         ));
 
         Classes::create(array(
-        'grade'     => 6,
+        'grade'     => 5,
         'subject' => 'English',
         'teacher_id'    => '2',
         'starts_at' => '12:00:00',
@@ -67,7 +67,7 @@ class ClassTableSeeder extends Seeder
         ));
 
         Classes::create(array(
-        'grade'     => 6,
+        'grade'     => 5,
         'subject' => 'Science',
         'teacher_id'    => '3',
         'starts_at' => '10:00:00',

@@ -18,8 +18,16 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-
-// API call without Authorization header
+/* 
+|--------------------------------------------------------------------------
+|                   API call without Authorization header
+|--------------------------------------------------------------------------
+|
+| Here is to register API without any authorization during call.
+| API initialized here can be called without any authorization token, but
+| should handle any invalid or do not exist data.
+|
+*/
 Route::group(['prefix' => 'v1', 'middleware' => 'web'], function () {
 
     // get user account's info (token)
@@ -29,13 +37,25 @@ Route::group(['prefix' => 'v1', 'middleware' => 'web'], function () {
     Route::post('/account/login', 'AccountController@loginEmail');
 });
 
-// API call with Authorization header
+/* 
+|--------------------------------------------------------------------------
+|                   API call with Authorization header
+|--------------------------------------------------------------------------
+|
+| Here is to register API with an authorization header during call.
+| Authorization token (api_token) can be obtain from users table.
+|
+*/
 Route::group(['prefix' => 'v1', 'middleware' => 'auth:api'], function () {
 
-    // get all classrooms
+    // classrooms API
+    // obtain class room info
     Route::get('{userID}/classroom', 'ClassRoomController@getClasses');
-
-    // get classroom details
     Route::get('{userID}/classroom/{classID}', 'ClassRoomController@getClassDetails');
+    Route::get('{userID}/classroom/{classID}/{benchmark}', 'ClassRoomController@getScoreDetails');
+
+    // tasks API
+    // assign and get task
+    Route::post('{userID}/assign/{taskID}', 'TaskController@assignTask');
 });
 

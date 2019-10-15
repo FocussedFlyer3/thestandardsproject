@@ -45,4 +45,8 @@ class User extends Authenticatable
         return $this->hasMany(Score::class,'user_id', 'id');
     }
 
+    public function tasks(){
+        return $this->belongsToMany(Task::class, 'task_user', 'user_id', 'task_id')->using(TaskUser::class);
+    }
+
 }
