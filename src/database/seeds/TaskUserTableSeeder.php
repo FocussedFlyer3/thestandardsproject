@@ -17,16 +17,16 @@ class TaskUserTableSeeder extends Seeder
 
         // score with target A
         DB::table('task_user')->insert(array(
-            array('task_id' => 1, 'user_id' => 4, 'score_id' => 12),
-            array('task_id' => 1, 'user_id' => 5, 'score_id' => 13),
-            array('task_id' => 1, 'user_id' => 6, 'score_id' => 14),
-            array('task_id' => 1, 'user_id' => 7, 'score_id' => 15),
-            array('task_id' => 1, 'user_id' => 8, 'score_id' => 16),
-            array('task_id' => 2, 'user_id' => 4, 'score_id' => 17),
-            array('task_id' => 2, 'user_id' => 7, 'score_id' => 18),
-            array('task_id' => 2, 'user_id' => 9, 'score_id' => 19),
-            array('task_id' => 2, 'user_id' => 10, 'score_id' => 20),
-            array('task_id' => 2, 'user_id' => 11, 'score_id' => 21)
+            array('task_id' => 1, 'user_id' => 4, 'score_id' => 12, 'assigned_by_id' => 1),
+            array('task_id' => 1, 'user_id' => 5, 'score_id' => 13, 'assigned_by_id' => 1),
+            array('task_id' => 1, 'user_id' => 6, 'score_id' => 14, 'assigned_by_id' => 2),
+            array('task_id' => 1, 'user_id' => 7, 'score_id' => 15, 'assigned_by_id' => 2),
+            array('task_id' => 1, 'user_id' => 8, 'score_id' => 16, 'assigned_by_id' => 1),
+            array('task_id' => 2, 'user_id' => 4, 'score_id' => 17, 'assigned_by_id' => 2),
+            array('task_id' => 2, 'user_id' => 7, 'score_id' => 18, 'assigned_by_id' => 1),
+            array('task_id' => 2, 'user_id' => 9, 'score_id' => 19, 'assigned_by_id' => 1),
+            array('task_id' => 2, 'user_id' => 10, 'score_id' => 20, 'assigned_by_id' => 2),
+            array('task_id' => 2, 'user_id' => 11, 'score_id' => 21, 'assigned_by_id' => 2)
         ));
     }
 }
