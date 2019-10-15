@@ -49,9 +49,13 @@ Route::group(['prefix' => 'v1', 'middleware' => 'web'], function () {
 Route::group(['prefix' => 'v1', 'middleware' => 'auth:api'], function () {
 
     // classrooms API
+    // obtain class room info
     Route::get('{userID}/classroom', 'ClassRoomController@getClasses');
     Route::get('{userID}/classroom/{classID}', 'ClassRoomController@getClassDetails');
     Route::get('{userID}/classroom/{classID}/{benchmark}', 'ClassRoomController@getScoreDetails');
 
+    // tasks API
+    // assign and get task
+    Route::post('{userID}/assign/{taskID}', 'TaskController@assignTask');
 });
 
