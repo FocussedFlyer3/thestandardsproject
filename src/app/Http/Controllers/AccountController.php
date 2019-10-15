@@ -59,6 +59,7 @@ class AccountController extends Controller
                     'code' => 400
                 ]
             ];
+            Log::info('User failed to log in: '.json_encode($data));
 
             return response($error, Response::HTTP_BAD_REQUEST);
         }
@@ -72,11 +73,12 @@ class AccountController extends Controller
             $error = [
                 'error' => [
                     'message' => 'Email or Password incorrect, try again!',
-                    'code' => 401
+                    'code' => 400
                 ]
             ];
+            Log::info('User failed to log in: '.json_encode($data));
 
-            return response($error, 401);
+            return response($error, Response::HTTP_BAD_REQUEST);
         }
 
         // reveal hidden attributes 
