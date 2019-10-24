@@ -68,7 +68,54 @@ class TaskController extends Controller
             'messsage' => 'Task successfully assigned'
         ];
         
+        $response = json_encode($response);
+        
         return response($response, Response::HTTP_OK);
+    }
+
+    /**
+     * Obtain tasks assigned to a user
+     * @param $userID is the assignor id
+     *
+     * @return HTTP response
+     */
+    public function getTasks($userID) {
+        $user = User::with('tasks.scores')->find($userID);
+
+        $tasks = $user->tasks;
+        foreach ($tasks as $index => $task) {
+            $scores = $task->scores;
+            foreach ($scores as $score) {
+                if ($score['user_id'] == $userID) {
+                    $score = $score->makeHidden(['user_id']);
+                    $tasks[$index]->setAttribute('scoreInfo', $score);
+                    break;
+                }
+            }
+        }
+
+        $tasks = $tasks->makeHidden(['scores']);
+        $response = [
+            'tasks' => $tasks
+        ];
+
+        $response = json_encode($response);
+        
+        return response($response, Response::HTTP_OK);
+    }
+
+    /**
+     * Remove a task assigned to a user
+     * @param $userID is the assignor id
+     * @param $taskID is the task id to be removed from user
+     *
+     * @return HTTP response
+     */
+    public function removeTask($userID, $taskID) {
+        $user = User::with('tasks')->find($userID);
+        
+        $user->tasks()->detach($taskID,['assigned_by_id' => $userID]);
+
     }
 
 }

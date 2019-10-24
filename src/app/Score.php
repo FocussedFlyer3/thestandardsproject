@@ -34,4 +34,8 @@ class Score extends Model
         return $this->belongsToMany(Module::class, 'module_score', 'score_id', 'module_id')->using(ModuleScore::class);
     }
 
+    public function tasks(){
+        return $this->belongsToMany(Task::class, 'task_user', 'score_id', 'task_id')->using(TaskUser::class);
+    }
+
 }

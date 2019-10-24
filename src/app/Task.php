@@ -23,4 +23,8 @@ class Task extends Model
     public function users(){
         return $this->belongsToMany(User::class, 'task_user', 'task_id', 'user_id')->using(TaskUser::class);
     }
+
+    public function scores(){
+        return $this->belongsToMany(Score::class, 'task_user', 'task_id', 'score_id')->using(TaskUser::class);
+    }
 }
