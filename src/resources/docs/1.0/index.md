@@ -1,0 +1,8 @@
+- ## Get Started
+    - [Overview](/{{route}}/{{version}}/overview)
+    - [Installation](/{{route}}/{{version}}/installation)
+- ## APIs
+    - [Account](/{{route}}/{{version}}/overview)
+    - [Classroom](/{{route}}/{{version}}/installation)
+    - [Task](/{{route}}/{{version}}/installation)
+    - [Score](/{{route}}/{{version}}/installation)
