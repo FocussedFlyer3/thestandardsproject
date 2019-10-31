@@ -2,7 +2,7 @@
     - [Overview](/{{route}}/{{version}}/overview)
     - [Installation](/{{route}}/{{version}}/installation)
 - ## APIs
-    - [Account](/{{route}}/{{version}}/overview)
-    - [Classroom](/{{route}}/{{version}}/installation)
-    - [Task](/{{route}}/{{version}}/installation)
-    - [Score](/{{route}}/{{version}}/installation)
+    - [Account](/{{route}}/{{version}}/account)
+    - [Classroom](/{{route}}/{{version}}/classroom)
+    - [Task](/{{route}}/{{version}}/task)
+    - [Score](/{{route}}/{{version}}/score)
