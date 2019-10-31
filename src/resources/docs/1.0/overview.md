@@ -5,12 +5,29 @@ A system that will store multimedia “modules” and present them to students f
 
 
 - [Overview](/{{route}}/{{version}}/overview#section-1)
-- [Features](/{{route}}/{{version}}/overview#section-2)
+- [APIs](/{{route}}/{{version}}/overview#section-2)
 
 <a id="section-1"></a>
 ## Overview
+This system API has predictable resource-oriented URLs, accepts **JSON-encoded** request bodies, returns **JSON-encoded** responses, and uses standard HTTP response codes, authentication, and verbs.  
+<br/>
+####Base url:
+```curl
+{{env('APP_URL')}}/api/v1
+```  
+<br/>
+This system API uses API keys to authenticate requests. Authentication to the API is performed via HTTP authorization header using bearer token. Provide your API key as the basic authorization header value.  
+<br/>
+####Header of request should contain at-least:
+```perl
+Authorization: "Bearer <API KEY>",
+Accept: "application/json",
+Content-Type: "application/json"
+```
 
 <a id="section-2"></a>
-## Features
-> - [Assign Modules](/{{route}}/{{version}}/AssignModules)
-> - Notifications
+## APIs
+> - [Account](/{{route}}/{{version}}/account)
+> - [Classroom](/{{route}}/{{version}}/classroom)
+> - [Task](/{{route}}/{{version}}/task)
+> - [Score](/{{route}}/{{version}}/score)
