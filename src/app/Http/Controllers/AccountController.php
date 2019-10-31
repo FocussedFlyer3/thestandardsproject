@@ -7,6 +7,7 @@ use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Hash;
 use App\User;
 use Auth;
+use Log;
 
 class AccountController extends Controller
 {   
