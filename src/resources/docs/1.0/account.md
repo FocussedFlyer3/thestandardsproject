@@ -1,7 +1,16 @@
 # Account  
 This is an object representing a user account. You can create new user, update and delete current account info.
 Account login through email only.
-
+<br/>  
+The Account Object:
+```JSON
+"id": 1,
+"name": "John Beck",
+"username": "teacherone",
+"email": "johnbeck@email.com",
+"role": 1,
+"api_token": "aCSZkvGkec5jNerGqDALIw0JFGWliGFUP65HW25ynggfWVyYDLJ7JFd9TuOM"
+```  
 ---
 
 - [Login Email](/{{route}}/{{version}}/account#section-1)
@@ -12,7 +21,7 @@ Account login through email only.
 ## Login Email
 Endpoint:
 ```perl
-GET /account/login
+POST /account/login
 ```
 <br/>
 Expected Body:
