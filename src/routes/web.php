@@ -20,5 +20,3 @@ Route::get('/class/{classID}', 'HomeController@getClassRoom')->name('class');
 //  To handle logout
 Route::post('/logout', 'Auth\LoginController@logout')->name('logout');
 Route::get('logout', 'Auth\LoginController@logout');
-
-URL::forceScheme('https');
