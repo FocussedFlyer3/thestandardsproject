@@ -3,6 +3,7 @@
         Options -MultiViews -Indexes
     </IfModule>
 
+    # DO NOT TOUCH, ENSURE THIS IS ON
     RewriteEngine on
     RewriteBase /
 
