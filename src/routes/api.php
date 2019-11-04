@@ -33,7 +33,10 @@ Route::group(['prefix' => 'v1', 'middleware' => 'web'], function () {
     // get user account's info (token)
     Route::get('/account', 'AccountController@getAccountInfo');
 
-    // login using API to authenticate user
+    // sign up with email
+    Route::post('/account/signup', 'AccountController@signUp');
+
+    // login with email
     Route::post('/account/login', 'AccountController@loginEmail');
 });
 
