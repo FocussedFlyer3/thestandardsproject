@@ -15,16 +15,17 @@ The Account Object:
 
 - [Login Email](/{{route}}/{{version}}/account#section-1)
 - [Create New User](/{{route}}/{{version}}/account#section-2)
-- [Update Information](/{{route}}/{{version}}/account#section-3)
+- [Update User Information](/{{route}}/{{version}}/account#section-3)
+- [Delete a User](/{{route}}/{{version}}/account#section-4)
 
 <a id="section-1"></a>
 ## Login Email
 Endpoint:
 ```perl
-POST /account/login
+POST '/account/login'
 ```
 <br/>
-Expected Body:
+Expected Body on POST:
 ```JSON
 "account":{
 	"email": "johnbeck@email.com",
@@ -34,7 +35,36 @@ Expected Body:
 
 <a id="section-2"></a>
 ## Create New User
-
+Endpoint:
+```perl
+POST '/account/signup'
+```
+<br/>
+Expected Body on POST:
+```JSON
+"account":{
+    "name": "John Beck",
+    "username": "teacherone",
+    "email": "johnbeck@email.com",
+	"password": "passwordone",
+    "role": 1
+}
+```
 
 <a id="section-3"></a>
-
+## Update User Information
+Endpoint:
+```perl
+POST '{userID}/account'
+```
+<br/>
+Expected Body on POST:
+```JSON
+"account":{
+	"name": "John Beck",
+	"username": "teacherone",
+	"email": "johnbeck@email.com",
+	"role": 1
+}
+```
+> {info} Passing the whole account object with all its attributes is possible as well.
