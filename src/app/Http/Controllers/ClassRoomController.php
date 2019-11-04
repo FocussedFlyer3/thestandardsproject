@@ -25,7 +25,20 @@ class ClassRoomController extends Controller {
      */
     public function assignClass ($userID, Request $request) {
         $data = json_decode($request->getContent(), true);
-        $classes =  $data['classroom'];
+        $classes =  $data['classroom']['id'];
+
+        if ($classes == NULL) {
+            $error = [
+                'error' => [
+                    'message' => 'Classroom id not found in JSON body',
+                    'code' => 400
+                ]
+            ];
+            Log::info('Classroom assign failed!');
+            Log::info('JSON body: '.json_encode($data));
+
+            return response($error, Response::HTTP_BAD_REQUEST);
+        } 
 
         // find user 
         $user = User::find($userID);
