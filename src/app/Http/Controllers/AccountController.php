@@ -72,6 +72,9 @@ class AccountController extends Controller
             return response($error, Response::HTTP_BAD_REQUEST);
         }
 
+        // get inserted user
+        $user->makeVisible(['api_token']);
+
         $response = [
             'account' => $user
         ];
