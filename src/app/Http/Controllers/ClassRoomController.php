@@ -19,6 +19,44 @@ class ClassRoomController extends Controller {
     */
 
     /**
+     * Assign classroom to a user
+     *
+     * @return HTTP response status
+     */
+    public function assignClass ($userID, Request $request) {
+        $data = json_decode($request->getContent(), true);
+        $classes =  $data['classroom'];
+
+        // find user 
+        $user = User::find($userID);
+
+        // check user role
+        switch ($user->role) {
+            case 0: 
+                // student
+                foreach ($classes as $class) {
+                    $user->classes()->attach($class);
+                }
+                break;
+            case 1:
+                // teacher
+                // update teacher id in class
+                foreach ($classes as $class) {
+                    Classes::where('class_id', $class)->update(['teacher_id' => $userID]);
+                }
+                break;
+        }
+
+        $response = [
+            'code' => 200,
+            'messsage' => 'Classroom successfully assigned'
+        ];
+        
+        $response = json_encode($response);
+        return response($response, Response::HTTP_OK);
+    }
+
+    /**
      * Get all user's classes enrolled in
      *
      * @return HTTP response with user's classes
