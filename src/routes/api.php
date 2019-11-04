@@ -30,6 +30,7 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 */
 Route::group(['prefix' => 'v1', 'middleware' => 'web'], function () {
 
+    // ACCOUNT API
     // get user account's info (token)
     Route::get('/account', 'AccountController@getAccountInfo');
 
@@ -51,20 +52,24 @@ Route::group(['prefix' => 'v1', 'middleware' => 'web'], function () {
 */
 Route::group(['prefix' => 'v1', 'middleware' => 'auth:api'], function () {
 
-    // classrooms API
+    // ACCOUNT API
+    // update account info
+    Route::post('{userID}/account', 'AccountController@updateInfo');
+
+    // CLASSROOM API
     // obtain class room info
     Route::get('{userID}/classroom', 'ClassRoomController@getClasses');
     Route::get('{userID}/classroom/{classID}', 'ClassRoomController@getClassDetails');
     Route::get('{userID}/classroom/{classID}/{benchmark}', 'ClassRoomController@getScoreDetails');
     // assign classroom to user
-    Route::post('{userID}/assignClass', 'ClassRoomController@assignClass');
+    Route::post('{userID}/classroom-assign', 'ClassRoomController@assignClass');
 
-    // tasks API
+    // TASK API
     // assign and get task
     Route::post('{userID}/assign/{taskID}', 'TaskController@assignTask');
     Route::get('{userID}/tasks','TaskController@getTasks');
 
-    // score API
+    // SCORE API
     // assign scores
     Route::post('{userID}/score/{taskID}', 'ScoreController@addScore');
 });

@@ -134,4 +134,48 @@ class AccountController extends Controller
 
         return response($response, Response::HTTP_OK);
     }
+
+    /**
+     * Update current user's info
+     *
+     * @return HTTP response with updated user's account info
+     */
+    public function updateInfo ($userID ,Request $request) {
+        $data = json_decode($request->getContent(), true);
+        $userInfo = $data['account'];
+
+        try {
+            // find user
+            $user = User::where('id', $userID)->first();
+
+            // update user info
+            $user->update([
+                'name' => $userInfo['name'],
+                'username' => $userInfo['username'],
+                'email' => $userInfo['email'],
+                'password' => Hash::make($userInfo['password']),
+                'role' => $userInfo['role']
+            ]);
+
+            $error = [
+                'code' => 400,
+                'message' => 'Opps! Looks like something went wrong, try again later!'
+            ];
+            Log::info('Update user('.$userID.') info error!');
+            Log::info('Post data: '.json_encode($data));
+            Log::error($e);
+
+            return response($error, Response::HTTP_BAD_REQUEST);
+        }
+
+        // get inserted user
+        $user->makeVisible(['api_token']);
+
+        $response = [
+            'account' => $user
+        ];
+        $response = json_encode($response);
+        
+        return response($response, Response::HTTP_OK);
+    }
 }
