@@ -2,7 +2,7 @@
 This is an object representing a user account. You can create new user, update and delete current account info.
 Account login through email only.
 <br/>  
-The Account Object:
+### The Account Object:
 ```JSON
 "id": 1,
 "name": "John Beck",
@@ -16,10 +16,10 @@ The Account Object:
 - [Login Email](/{{route}}/{{version}}/account#section-1)
 - [Create New User](/{{route}}/{{version}}/account#section-2)
 - [Update User Information](/{{route}}/{{version}}/account#section-3)
-- [Delete a User](/{{route}}/{{version}}/account#section-4)
 
 <a id="section-1"></a>
 ## Login Email
+To login using email.  
 Endpoint:
 ```perl
 POST '/account/login'
@@ -32,9 +32,11 @@ Expected Body on POST:
 	"password": "passwordone"
 }
 ```
+<br/>
 
 <a id="section-2"></a>
 ## Create New User
+To sign up new user with email.  
 Endpoint:
 ```perl
 POST '/account/signup'
@@ -50,9 +52,11 @@ Expected Body on POST:
     "role": 1
 }
 ```
+<br/>
 
 <a id="section-3"></a>
 ## Update User Information
+To update a user's info base on `{userID}`.  
 Endpoint:
 ```perl
 POST '{userID}/account'
@@ -68,3 +72,4 @@ Expected Body on POST:
 }
 ```
 > {info} Passing the whole account object with all its attributes is possible as well.
+<br/>

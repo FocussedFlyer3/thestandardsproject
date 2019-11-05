@@ -4,7 +4,7 @@ For now, you can only update a score of an assigned task.
 
 ---
 
-- [Assign Score From a Task](/{{route}}/{{version}}/account#section-1)
+- [Assign Score From a Task](/{{route}}/{{version}}/score#section-1)
 
 <a id="section-1"></a>
 ## Assign Score From a Task
