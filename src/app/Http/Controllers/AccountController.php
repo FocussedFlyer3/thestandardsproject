@@ -144,7 +144,7 @@ class AccountController extends Controller
         $data = json_decode($request->getContent(), true);
         $userInfo = $data['account'];
 
-        try {
+        try{
             // find user
             $user = User::where('id', $userID)->first();
 
@@ -156,12 +156,12 @@ class AccountController extends Controller
                 'password' => Hash::make($userInfo['password']),
                 'role' => $userInfo['role']
             ]);
-
+        } catch (Exception $e){
             $error = [
                 'code' => 400,
                 'message' => 'Opps! Looks like something went wrong, try again later!'
             ];
-            Log::info('Update user('.$userID.') info error!');
+            Log::info('Error when update user('.$userID.') info!');
             Log::info('Post data: '.json_encode($data));
             Log::error($e);
 
