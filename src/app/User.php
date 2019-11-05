@@ -46,7 +46,7 @@ class User extends Authenticatable
     }
 
     public function tasks(){
-        return $this->belongsToMany(Task::class, 'task_user', 'user_id', 'task_id')->using(TaskUser::class);
+        return $this->belongsToMany(Task::class, 'task_user', 'user_id', 'task_id')->withPivot('task_id', 'score_id')->using(TaskUser::class);
     }
 
 }
