@@ -28,14 +28,14 @@ The Classroom Object:
 ```  
 ---
 
-- [Get a Classroom](/{{route}}/{{version}}/account#section-1)
+- [Get User's Classrooms](/{{route}}/{{version}}/account#section-1)
 - [Create New Classroom](/{{route}}/{{version}}/account#section-2)
 - [Assign Classroom to a User](/{{route}}/{{version}}/account#section-3)
-- [Update Information](/{{route}}/{{version}}/account#section-4)
+- [Update Classroom Informations](/{{route}}/{{version}}/account#section-4)
 - [Delete a Classroom](/{{route}}/{{version}}/account#section-5)
 
 <a id="section-1"></a>
-## Get a Classroom
+## Get User's Classrooms
 Endpoint:
 ```perl
 GET '/{user-id}/classroom'
@@ -55,8 +55,12 @@ POST '{userID}/classroom-assign'
 <br/>
 Expected Body on POST:
 ```JSON
-"classroom":{
-    "id": [1, 2]
+"classroom": {
+	"id": [1,2]
 }
 ```
+<a id="section-4"></a>
+## Update Classroom Informations
 
+<a id="section-5"></a>
+## Delete a Classroom
