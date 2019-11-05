@@ -30,7 +30,8 @@ class TaskController extends Controller
      */
     public function assignTask($userID, $taskID, Request $request) {
         $data = json_decode($request->getContent(), true);
-        $students= $data['students'];
+        $classID = $data['task']['class_id'];
+        $students= $data['task']['students_id'];
 
         try {
             foreach ($students as $studentID){
@@ -113,9 +114,7 @@ class TaskController extends Controller
      */
     public function removeTask($userID, $taskID) {
         $user = User::with('tasks')->find($userID);
-        
         $user->tasks()->detach($taskID,['assigned_by_id' => $userID]);
-
     }
 
 }
