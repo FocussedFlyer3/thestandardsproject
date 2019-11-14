@@ -28,7 +28,7 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 | should handle any invalid or do not exist data.
 |
 */
-Route::group(['prefix' => 'v1', 'middleware' => 'web'], function () {
+Route::group(['prefix' => 'v1', 'middleware' => ['web', 'cors']], function () {
 
     // ACCOUNT API
     // get user account's info (token)
