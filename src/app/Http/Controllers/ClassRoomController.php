@@ -7,6 +7,8 @@ use App\User;
 use App\Module;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use DateTime;
+use Log;
 
 class ClassRoomController extends Controller {
      /* 
@@ -14,13 +16,80 @@ class ClassRoomController extends Controller {
     | Class Room Controller
     |--------------------------------------------------------------------------
     |
-    | This controller is responsible for obtaining user enrolled classes info.
+    | This controller is responsible for obtaining, creating and manipulating
+    | classes info as well as assigning a classroom to a user
     |
     */
 
     /**
      * Assign classroom to a user
      *
+     * @return HTTP response status
+     */
+
+    public function newClass ($userID, Request $request) {
+        $data = json_decode($request->getContent(), true);
+        $classInfo = $data['classroom'];
+
+        // check for starts_at and ends_at format (HH:MM:SS)
+        if (array_key_exists("starts_at",$classInfo) && array_key_exists("ends_at",$classInfo) ) {
+            if ((DateTime::createFromFormat('H:i:s', $classInfo['starts_at']) || DateTime::createFromFormat('H:i:s', $classInfo['ends_at'])) == FALSE) {
+                $error = [
+                    'code' => 400,
+                    'message' => 'Time format for `starts_at` and `ends_at` should be <HH:MM:SS> in string!'
+                ];
+                Log::info('Invalid time format in creating new classroom Error!');
+                Log::info('Post data: '.json_encode($data));
+    
+                return response($error, Response::HTTP_BAD_REQUEST);
+            }
+        } else {
+            $error = [
+                'code' => 400,
+                'message' => 'Missing `starts_at` and `ends_at` key in JSON body!'
+            ];
+            Log::info('Missing key in creating new classroom Error!');
+            Log::info('Post data: '.json_encode($data));
+
+            return response($error, Response::HTTP_BAD_REQUEST);
+        }
+
+        try {
+            // create new user instance
+            $class = new Classes;
+            $class->grade = $classInfo['grade'];
+            $class->subject = $classInfo['subject'];
+            $class->teacher_id = $userID;
+            $class->starts_at = $classInfo['starts_at'];
+            $class->ends_at = $classInfo['ends_at'];
+            $class->school = $classInfo['school'];
+            $class->room = $classInfo['room'];
+            $class->save();
+
+        } catch (Exception $e) {
+            $error = [
+                'code' => 400,
+                'message' => 'Opps! Looks like something went wrong, try again later!'
+            ];
+            Log::info('Create new classroom Error!');
+            Log::info('Post data: '.json_encode($data));
+            Log::error($e);
+
+            return response($error, Response::HTTP_BAD_REQUEST);
+        }
+
+        $response = [
+            'classroom' => $class
+        ];
+        $response = json_encode($response);
+        
+        return response($response, Response::HTTP_OK);
+    }
+
+    /**
+     * Assign classroom to a user (userID)
+     * @param $userID is the user currently assigning class to itself
+     * @param $request contains classes id to be assigned to user
      * @return HTTP response status
      */
     public function assignClass ($userID, Request $request) {
@@ -40,19 +109,19 @@ class ClassRoomController extends Controller {
             return response($error, Response::HTTP_BAD_REQUEST);
         } 
 
-        // find user 
+        // find user role 
         $user = User::find($userID);
 
         // check user role
         switch ($user->role) {
             case 0: 
-                // student
+                // students
                 foreach ($classes as $class) {
                     $user->classes()->attach($class);
                 }
                 break;
             case 1:
-                // teacher
+                // teachers
                 // update teacher id in class
                 foreach ($classes as $class) {
                     Classes::where('class_id', $class)->update(['teacher_id' => $userID]);

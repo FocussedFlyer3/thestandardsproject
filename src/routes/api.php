@@ -63,6 +63,8 @@ Route::group(['prefix' => 'v1', 'middleware' => 'auth:api'], function () {
     Route::get('{userID}/classroom/{classID}/{benchmark}', 'ClassRoomController@getScoreDetails');
     // assign classroom to user
     Route::post('{userID}/classroom-assign', 'ClassRoomController@assignClass');
+    // create new classroom
+    Route::post('{userID}/classroom', 'ClassRoomController@newClass');
 
     // TASK API
     // assign and get task
