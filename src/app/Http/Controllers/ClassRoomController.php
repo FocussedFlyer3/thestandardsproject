@@ -22,11 +22,11 @@ class ClassRoomController extends Controller {
     */
 
     /**
-     * Assign classroom to a user
-     *
-     * @return HTTP response status
+     * Create new classroom
+     * @param $userID id of the user creating new classroom
+     * @param $request containing new classroom info to be created
+     * @return HTTP response status with new classroom info
      */
-
     public function newClass ($userID, Request $request) {
         $data = json_decode($request->getContent(), true);
         $classInfo = $data['classroom'];
@@ -55,7 +55,7 @@ class ClassRoomController extends Controller {
         }
 
         try {
-            // create new user instance
+            // create new class instance
             $class = new Classes;
             $class->grade = $classInfo['grade'];
             $class->subject = $classInfo['subject'];
@@ -84,6 +84,82 @@ class ClassRoomController extends Controller {
         $response = json_encode($response);
         
         return response($response, Response::HTTP_OK);
+    }
+
+    /**
+     * Update a current classroom
+     * @param $userID id of the user updating its classroom
+     * @param $classID id of the class to update
+     * @param $request containing info of classroom to be update
+     * @return HTTP response status of update
+    */
+    public function updateClassInfo($userID, $classID, Request $request) {
+        $data = json_decode($request->getContent(), true);
+        $classInfo =  $data['classroom'];
+
+        if ($classInfo == NULL) {
+            $error = [
+                'error' => [
+                    'message' => '`classroom` key not found in JSON body',
+                    'code' => 400
+                ]
+            ];
+            Log::info('Updating classroom info failed!');
+            Log::info('JSON body: '.json_encode($data));
+
+            return response($error, Response::HTTP_BAD_REQUEST);
+        }
+
+        // update class info
+        try{
+            // update class info
+            $userClass = Classes::where('teacher_id', $userID)
+                                ->where('class_id', $classID)
+                                ->update([
+                                    'grade' => $classInfo['grade'],
+                                    'subject' => $classInfo['subject'],
+                                    'teacher_id' => $userID,
+                                    'starts_at' => $classInfo['starts_at'],
+                                    'ends_at' => $classInfo['ends_at'],
+                                    'school' => $classInfo['school'],
+                                    'room' => $classInfo['room']
+                                ]);
+
+            // if user class cannot be find
+            if ($userClass == NULL) {
+                $error = [
+                    'error' => [
+                        'message' => 'classID `'.$classID.'` is not assigned to userID `'.$userID.'`. Permission to edit is denied!',
+                        'code' => 405
+                    ]
+                ];
+                Log::info('Updating classroom info failed!');
+                Log::info('classID `'.$classID.'` cannot be found for userID `'.$userID.'`');
+                Log::info('JSON body: '.json_encode($data));
+
+                return response($error, Response::HTTP_BAD_REQUEST);
+            }
+
+        } catch (Exception $e){
+            $error = [
+                'code' => 400,
+                'message' => 'Opps! Looks like something went wrong, try again later!'
+            ];
+            Log::info('Error when update user('.$userID.') info!');
+            Log::info('Post data: '.json_encode($data));
+            Log::error($e);
+        
+            return response($error, Response::HTTP_BAD_REQUEST);
+        }
+
+        $response = [
+            'code' => 200,
+            'messsage' => 'Classroom\'s info successfully updated!'
+        ];
+        $response = json_encode($response);
+        
+        return response($response, Response::HTTP_OK);
+
     }
 
     /**

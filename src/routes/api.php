@@ -30,15 +30,10 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 */
 Route::group(['prefix' => 'v1', 'middleware' => ['web']], function () {
 
-    // ACCOUNT API
-    // get user account's info (token)
-    Route::get('/account', 'AccountController@getAccountInfo');
-
-    // sign up with email
-    Route::post('/account/signup', 'AccountController@signUp');
-
-    // login with email
-    Route::post('/account/login', 'AccountController@loginEmail');
+    # ACCOUNT API
+    Route::get('/account', 'AccountController@getAccountInfo');     // get user account's info (token)
+    Route::post('/account/signup', 'AccountController@signUp');     // sign up with email
+    Route::post('/account/login', 'AccountController@loginEmail');  // login with email
 });
 
 /* 
@@ -52,27 +47,23 @@ Route::group(['prefix' => 'v1', 'middleware' => ['web']], function () {
 */
 Route::group(['prefix' => 'v1', 'middleware' => 'auth:api'], function () {
 
-    // ACCOUNT API
-    // update account info
-    Route::post('{userID}/account', 'AccountController@updateInfo');
+    # ACCOUNT API
+    Route::post('{userID}/account', 'AccountController@updateInfo');    // update account info
 
-    // CLASSROOM API
-    // obtain class room info
-    Route::get('{userID}/classroom', 'ClassRoomController@getClasses');
-    Route::get('{userID}/classroom/{classID}', 'ClassRoomController@getClassDetails');
-    Route::get('{userID}/classroom/{classID}/{benchmark}', 'ClassRoomController@getScoreDetails');
-    // assign classroom to user
-    Route::post('{userID}/classroom-assign', 'ClassRoomController@assignClass');
-    // create new classroom
-    Route::post('{userID}/classroom', 'ClassRoomController@newClass');
+    # CLASSROOM API
+    Route::get('{userID}/classroom', 'ClassRoomController@getClasses');                             // obtain user's classroom info
+    Route::get('{userID}/classroom/{classID}', 'ClassRoomController@getClassDetails');              // obtain classroom info
+    Route::get('{userID}/classroom/{classID}/{benchmark}', 'ClassRoomController@getScoreDetails');  // obtain detail breakdown of student progress
+    Route::post('{userID}/classroom-assign', 'ClassRoomController@assignClass');                    // assign classroom to user
+    Route::post('{userID}/classroom', 'ClassRoomController@newClass');                              // create new classroom
+    Route::post('{userID}/classroom/{classID}', 'ClassRoomController@updateClassInfo');             // update classroom info
 
-    // TASK API
+    # TASK API
     // assign and get task
-    Route::post('{userID}/assign/{taskID}', 'TaskController@assignTask');
-    Route::get('{userID}/tasks','TaskController@getTasks');
+    Route::post('{userID}/assign/{taskID}', 'TaskController@assignTask');   // To assign task to a user
+    Route::get('{userID}/tasks','TaskController@getTasks');                 // obtain all user's task assigned
 
-    // SCORE API
-    // assign scores
-    Route::post('{userID}/score/{taskID}', 'ScoreController@addScore');
+    # SCORE API
+    Route::post('{userID}/score/{taskID}', 'ScoreController@addScore');     // assign a score to a module
 });
 
