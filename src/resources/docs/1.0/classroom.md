@@ -40,7 +40,7 @@ This is an object representing a classroom. You can create new user, update and 
 This API will return all of the classrooms assigned to a user base on the `{userID}`.  
 Endpoint:
 ```perl
-GET '/{userID}/classroom'
+GET '{userID}/classroom'
 ```
 <br/>
 
@@ -67,6 +67,24 @@ with `{benchmark}` options:
 
 <a id="section-3"></a>
 ## Create New Classroom
+Endpoint:
+```perl
+POST '{userID}/classroom'
+```
+
+<br/>
+Expected Body on POST:
+```JSON
+"classroom": {
+	"grade": 6,
+	"subject": "Reading",
+	"starts_at": "10:55:00",
+	"ends_at": "11:55:00",
+	"school": "ENG100",
+	"room": "D101"
+}
+```  
+> {warning} Formatting for `starts_at` and `ends_at` must obey `HH:MM:SS`
 
 <a id="section-4"></a>
 ## Assign Classroom to a User
@@ -84,6 +102,23 @@ Expected Body on POST:
 <br/>
 <a id="section-5"></a>
 ## Update Classroom Informations
+Endpoint:
+```perl
+POST '{userID}/classroom/{classID}'
+```
+<br/>
+Expected Body on POST:
+```JSON
+"classroom": {
+	"grade": 6,
+	"subject": "Reading",
+	"starts_at": "10:55:00",
+	"ends_at": "11:55:00",
+	"school": "ENG100",
+	"room": "D101"
+}
+```
+> {warning} Formatting for `starts_at` and `ends_at` must obey `HH:MM:SS`
 
 <a id="section-6"></a>
 ## Delete a Classroom

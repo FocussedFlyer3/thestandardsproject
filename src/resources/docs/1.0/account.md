@@ -12,6 +12,7 @@ Account login through email only.
 "api_token": "aCSZkvGkec5jNerGqDALIw0JFGWliGFUP65HW25ynggfWVyYDLJ7JFd9TuOM"
 ```  
 ---
+> {info} `{userID}` in this docs refers to the user's account `id` field
 
 - [Login Email](/{{route}}/{{version}}/account#section-1)
 - [Create New User](/{{route}}/{{version}}/account#section-2)

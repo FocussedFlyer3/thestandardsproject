@@ -25,9 +25,12 @@ Accept: "application/json",
 Content-Type: "application/json"
 ```
 
+> {info} `{userID}` in this docs refers to the user's account `id` field
+
 <a id="section-2"></a>
 ## APIs
 > - [Account](/{{route}}/{{version}}/account)
 > - [Classroom](/{{route}}/{{version}}/classroom)
 > - [Task](/{{route}}/{{version}}/task)
 > - [Score](/{{route}}/{{version}}/score)
+
