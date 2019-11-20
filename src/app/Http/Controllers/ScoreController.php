@@ -99,12 +99,12 @@ class ScoreController extends Controller
         //check if there is a score assigned already
         $user = User::find($userID);
         $pivotData = $user->tasks()->where('task_id', $taskID)->get();
-        $task_score = $pivotData[0]->pivot->score_id;
+        $score_id = $pivotData[0]->pivot->score_id;
 
         // update score if exist
-        if ($task_score != NULL) {
+        if ($score_id != NULL) {
             try {
-                Score::where('score_id', $task_score)->update(['score'=> $data['scoreInfo']['score']]);
+                Score::where('score_id', $score_id)->update(['score'=> $data['scoreInfo']['score']]);
             } catch (Exception $e){
                 $error = [
                     'code' => 400,
