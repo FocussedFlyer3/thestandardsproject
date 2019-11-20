@@ -65,5 +65,8 @@ Route::group(['prefix' => 'v1', 'middleware' => 'auth:api'], function () {
 
     # SCORE API
     Route::post('{userID}/score/{taskID}', 'ScoreController@addScore');     // assign a score to a module
+
+    # RECORD API
+    Route::get('{userID}/record/{taskID}', 'RecordController@getRecord');  // get a assigned task record
 });
 
