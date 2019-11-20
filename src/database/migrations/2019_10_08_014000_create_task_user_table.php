@@ -22,6 +22,7 @@ class CreateTaskUserTable extends Migration
             $table->foreign('score_id')->references('score_id')->on('scores')->onDelete('cascade');
             $table->biginteger('assigned_by_id')->unsigned();
             $table->foreign('assigned_by_id')->references('id')->on('users')->onDelete('cascade');
+            $table->biginteger('status')->unsigned();
             $table->unique(['task_id', 'user_id']);
         });
     }
