@@ -49,6 +49,20 @@ class AccountController extends Controller
         $data = json_decode($request->getContent(), true);
         $userInfo = $data['account'];
 
+        // check if user exist
+        $currentUser = User::where('email', $userInfo['email']);
+        if ($currentUser != NULL) {
+            $error = [
+                'error' => [
+                    'message' => 'User already exist for: '.$data['account']['email'],
+                    'code' => 400
+                ]
+            ];
+            Log::info('User failed to sign up: '.json_encode($data));
+
+            return response($error, Response::HTTP_BAD_REQUEST);
+        }
+
         try {
             // create new user instance
             $user = new User;
