@@ -34,10 +34,11 @@ class TaskController extends Controller
         $students= $data['task']['students_id'];
 
         try {
-            foreach ($students as $studentID){
+            foreach ($students as $studentID){ 
+
                 // assign task to user 
                 $user = User::find($studentID);
-                $user->tasks()->attach($taskID,['assigned_by_id' => $userID]);
+                $user->tasks()->attach($taskID,['assigned_by_id' => $userID, 'status' => 0]);
             }
         } catch (\Illuminate\Database\QueryException $e){
             $error = [
