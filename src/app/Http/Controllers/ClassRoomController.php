@@ -297,7 +297,7 @@ class ClassRoomController extends Controller {
         }
 
         // filter students base on levels specified
-        $result = $this->filterResult($modules, $level);
+        $result = $this->filterResult($modules, $level, $role, $user);
 
         $response = json_encode($result);
 
@@ -311,8 +311,14 @@ class ClassRoomController extends Controller {
      * 
      * @return filtered JSON result
      */
-    private function filterResult ($modules, $level) {
-        $allStandards = $this->getAllScores($modules);
+    private function filterResult ($modules, $level, $role, $user) {
+
+        if ($role == 0) {           // student
+            $allStandards = $this->getScore($user);
+        } else if ($role == 1) {    // teacher
+            $allStandards = $this->getAllScores($modules);
+        }
+
         switch ($level){
             case 0: $students = $allStandards['proficient']; break;
             case 1: $students = $allStandards['almostProficient']; break;
@@ -502,15 +508,15 @@ class ClassRoomController extends Controller {
         }
 
         $result = [
-            'proeficent' => [
+            'proficient' => [
                 'count' => $proeficent,
                 'users' => $proeficentStudents
             ],
-            'almostProeficent' => [
+            'almostProficient' => [
                 'count' => $almostProeficent,
                 'users' => $almostProeficentStudents
             ],
-            'notProeficent' => [
+            'notProficient' => [
                 'count' => $notProeficent,
                 'users' => $notProeficentStudents
             ]
