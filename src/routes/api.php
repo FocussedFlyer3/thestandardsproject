@@ -51,6 +51,7 @@ Route::group(['prefix' => 'v1', 'middleware' => 'auth:api'], function () {
     Route::post('{userID}/account', 'AccountController@updateInfo');    // update account info
 
     # CLASSROOM API
+    Route::get('classroom', 'ClassRoomController@getAllClasses');                                   // obtain all available classrooms
     Route::get('{userID}/classroom', 'ClassRoomController@getClasses');                             // obtain user's classroom info
     Route::get('{userID}/classroom/{classID}', 'ClassRoomController@getClassDetails');              // obtain classroom info
     Route::get('{userID}/classroom/{classID}/{benchmark}', 'ClassRoomController@getScoreDetails');  // obtain detail breakdown of student progress

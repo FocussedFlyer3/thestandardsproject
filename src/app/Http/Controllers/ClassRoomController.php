@@ -22,6 +22,21 @@ class ClassRoomController extends Controller {
     */
 
     /**
+     * Get all classrooms available
+     * 
+     */
+    public function getAllClasses() {
+        $classes = Classes::all();
+
+        $response = [
+            'classroom' => $classes
+        ];
+        $response = json_encode($response);
+        
+        return response($response, Response::HTTP_OK);
+    }
+
+    /**
      * Create new classroom
      * @param $userID id of the user creating new classroom
      * @param $request containing new classroom info to be created
