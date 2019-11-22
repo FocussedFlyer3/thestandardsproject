@@ -33,13 +33,16 @@ For now, you can only get all user's tasks and assign a task to a user.
 
 <a id="section-1"></a>
 ## Get all user's tasks
+This API will return an array of tasks assigned to `{userID}`.  
 Endpoint:
 ```perl
 GET '{userID}/tasks'
 ```
+<br/>
 
 <a id="section-2"></a>
 ## Assign a task to a user
+This API will assign users mentioned in `"students_id"` field with task `{taskID}`.  
 Endpoint:
 ```perl
 POST '{userID}/assign/{taskID}'

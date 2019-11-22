@@ -45,7 +45,11 @@ Expected Body on POST:
 }
 ```
 `records` is the recording of a student's progress in module.
-`game_score` is an optional field, but `quiz_score` and `student_answers` should be returned from a task.
+`game_score` is an ***optional*** field, but `quiz_score` and `student_answers` should be returned from a task.
+
+> {warning} Formatting for `"records"` field should be strictly follow unless mentioned optional.
+
+<br/>
 
 > {info} If a score is already assigned to a task, the new score will replace the previous score!
 

@@ -9,6 +9,7 @@ This is an object representing recordings of a student's answers to a task. You 
 
 <a id="section-1"></a>
 ## Get a recording of a student's task
+This API will return a student's (`{userID}`) recordings of a assigned task (`{taskID}`).  
 Endpoint:
 ```perl
 GET '{userID}/record/{taskID}'
