@@ -14,7 +14,7 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return redirect('/docs/1.0/overview');
+        return redirect('/docs');
     }
 
     public function getClassRoom()
