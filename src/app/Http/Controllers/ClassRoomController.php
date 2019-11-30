@@ -254,18 +254,15 @@ class ClassRoomController extends Controller {
         // 1 - teacher
         switch ($user->role) {
             case 0: $classrooms = $user->classes; break;
-            case 1: $classrooms = Classes::where('teacher_id', $userID)->get(); break;
+            case 1: $classrooms = Classes::withCount('users')->where('teacher_id', $userID)->get(); break;
             default: $classrooms = null;
         }
 
         // response JSON
         $response = [
             'classes' => [
-                'classrooms' => $classrooms,
-                'notifications' => [
-                    'total' => 0,
-                    'items' => []
-                ]
+                'classrooms' => $classrooms
+                // TODO
             ]
         ];
         $response = json_encode($response);
