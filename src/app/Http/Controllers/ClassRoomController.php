@@ -326,8 +326,8 @@ class ClassRoomController extends Controller {
     private function filterResult ($modules, $level, $role, $user) {
         $allModule = [];
         $moduleCount = 0;
-        $studentsID = [];
-        $studentCount = 0;
+        $targetID = [];
+        $targetCount = 0;
 
         if ($role == 0) {           // student
             $allStandards = $this->getScore($user);
@@ -351,38 +351,54 @@ class ClassRoomController extends Controller {
             $temp = [];
             $count = 0;
 
-            $target = [
-                'id' => $module->id,
-                'target' => $module->name,
-                'description' => $module->description
-            ];
             foreach($module->scores as $score){
 
                 if (in_array(json_decode($score->user_id,true), $ids, true)) {
-                    if (!in_array(json_decode($score->user_id,true), $studentsID, true)) {
-                        $target['score'] = $score->score;
-                        $a = [
-                            'student_id' => $score->user_id,
-                            'name' => User::find($score->user_id)->name,
-                            'target' => $target,
-                        ];
-
-                        $studentsID[$studentCount] = $score->user_id;
-                        $allModule[$moduleCount] = $a;
-
-                        $moduleCount++;
-                        $studentCount++;
-                    }
                     $temp[$count++] = $score;
                 }
             }
             $module->scores = $temp;
+            $moduleCount++;
 
         }
 
-        $response = [ 
-            'count' => $moduleCount,
-            'details' => $allModule
+        $student_target = [];
+        $tempCount = 0;
+        $tempIds = [];
+        foreach($modulesString->modules as $index => $module) {
+            foreach($module->scores as $student) {
+
+                if (array_key_exists(json_decode($student->user_id, true), $tempIds)) {
+                    $target = [
+                        'id' => $module->id,
+                        'name' => $module->name,
+                        'description' => $module->description
+                    ];
+                    array_push($student_target[$tempIds[$student->user_id]]['targets'], $target);
+                } else {
+                    $currentStudent = [
+                        'id' => $student->users->id,
+                        'name' => $student->users->name,
+                        'targets' => [
+                            [
+                            'id' => $module->id,
+                            'name' => $module->name,
+                            'description' => $module->description
+                            ]
+                        ]
+                    ];
+
+                    $tempIds[$student->users->id] = $tempCount;
+                    $student_target[$tempCount] = $currentStudent;
+                    $tempCount++;
+                }
+
+            }
+        }
+
+        $response = [
+            'target_count' => $moduleCount,
+            'details' => $student_target
         ];
 
         return $response;
