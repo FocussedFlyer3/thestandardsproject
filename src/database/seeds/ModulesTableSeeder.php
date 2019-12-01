@@ -21,25 +21,37 @@ class ModulesTableSeeder extends Seeder
                 'subject' => 'Math',
                 'grade' => 5,
                 'name' => 'A',
-                'description' => 'Apply mathematics to solve well-posed problems in pure mathematics and arising in everyday life, society and the workplace.'
+                'description' => 'Write and interpret numerical expressions.'
             ),
             array(
                 'subject' => 'Math',
                 'grade' => 5,
                 'name' => 'B',
-                'description' => 'Select and use appropriate tools strategically.'
+                'description' => 'Analyze patterns and relationships.'
             ),
             array(
                 'subject' => 'Math',
                 'grade' => 5,
                 'name' => 'C',
-                'description' => 'Interpret results in the context of a situation.'
+                'description' => 'Understand the place value system.'
             ),
             array(
                 'subject' => 'Math',
                 'grade' => 5,
                 'name' => 'D',
-                'description' => 'Identify important quantities in a practical situation and map their relationship.'
+                'description' => 'Perform operations with multi‐digit whole numbers and with decimals to hundredths.'
+            ),
+            array(
+                'subject' => 'Math',
+                'grade' => 5,
+                'name' => 'E',
+                'description' => 'Use equivalent fractions as a strategy to add and subtract fractions.'
+            ),
+            array(
+                'subject' => 'Math',
+                'grade' => 5,
+                'name' => 'F',
+                'description' => 'Apply and extend previous understandings of multiplication and division to multiply and divide fractions.'
             )
         ));
     }

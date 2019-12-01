@@ -17,9 +17,9 @@ class RecordsTableSeeder extends Seeder
 
         // records of students progress for modules
         DB::table('records')->insert(array(
-            array('module_records' => '{"records":{"game_score":400,"quiz_score":7,"student_answers":[{"question_id":1,"answer":"A"},{"question_id":2,"answer":"A"},{"question_id":3,"answer":"C"},{"question_id":4,"answer":"D"}]}}'),
-            array('module_records' => '{"records":{"game_score":500,"quiz_score":10,"student_answers":[{"question_id":1,"answer":"B"},{"question_id":2,"answer":"D"},{"question_id":3,"answer":"D"},{"question_id":4,"answer":"C"}]}}'),
-            array('module_records' => '{"records":{"game_score":700,"quiz_score":9,"student_answers":[{"question_id":1,"answer":"B"},{"question_id":2,"answer":"A"},{"question_id":3,"answer":"D"},{"question_id":4,"answer":"B"}]}}')
+            array('module_records' => '{"records":{"game_score":400,"quiz_score":7,"student_answers":[{"question_id":1,"answer":"A","correct_answer":"B"},{"question_id":2,"answer":"A","correct_answer":"A"},{"question_id":3,"answer":"C","correct_answer":"C"},{"question_id":4,"answer":"D","correct_answer":"C"}]}}'),
+            array('module_records' => '{"records":{"game_score":500,"quiz_score":10,"student_answers":[{"question_id":1,"answer":"B","correct_answer":"B"},{"question_id":2,"answer":"D","correct_answer":"D"},{"question_id":3,"answer":"D","correct_answer":"C"},{"question_id":4,"answer":"C","correct_answer":"C"}]}}'),
+            array('module_records' => '{"records":{"quiz_score":5,"student_answers":[{"question_id":1,"answer":"B","correct_answer":"A"},{"question_id":2,"answer":"A","correct_answer":"B"},{"question_id":3,"answer":"D","correct_answer":"D"},{"question_id":4,"answer":"B","correct_answer":"B"}]}}')
         ));
     }
 }

@@ -19,11 +19,15 @@ class TasksTableSeeder extends Seeder
         DB::table('tasks')->insert(array(
             array(
                 'name' => 'Math is fun',
-                'url' => 'localhost',
+                'url' => 'http://localhost:8086/video',
             ),
             array(
                 'name' => 'Space Math',
                 'url' => 'localhost',
+            ),
+            array(
+                'name' => 'Pizza Slicer',
+                'url' => 'http://localhost:8086/game'
             )
         ));
     }

@@ -15,7 +15,7 @@ class CreateRecordsTable extends Migration
     {
         Schema::create('records', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string('module_records');
+            $table->string('module_records', 2000);
             $table->timestamps();
         });
     }

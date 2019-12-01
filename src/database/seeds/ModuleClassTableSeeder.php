@@ -21,10 +21,14 @@ class ModuleClassTableSeeder extends Seeder
             array('module_id' => 2, 'class_id' => 1),
             array('module_id' => 3, 'class_id' => 1),
             array('module_id' => 4, 'class_id' => 1),
+            array('module_id' => 5, 'class_id' => 1),
+            array('module_id' => 6, 'class_id' => 1),
             array('module_id' => 1, 'class_id' => 2),
             array('module_id' => 2, 'class_id' => 2),
             array('module_id' => 3, 'class_id' => 2),
-            array('module_id' => 4, 'class_id' => 2)
+            array('module_id' => 4, 'class_id' => 2),
+            array('module_id' => 5, 'class_id' => 2),
+            array('module_id' => 6, 'class_id' => 2)
         ));
     }
 }

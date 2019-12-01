@@ -17,7 +17,7 @@ class CreateScoresTable extends Migration
             $table->bigIncrements('score_id');
             $table->biginteger('user_id')->unsigned();
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
-            $table->double('score', 4, 2);
+            $table->double('score', 5, 2);
             $table->biginteger('class_id')->unsigned();
             $table->foreign('class_id')->references('class_id')->on('classes')->onDelete('cascade');
             $table->timestamps();
