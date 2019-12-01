@@ -63,6 +63,7 @@ Route::group(['prefix' => 'v1', 'middleware' => 'auth:api'], function () {
     // assign and get task
     Route::post('{userID}/assign/{taskID}', 'TaskController@assignTask');   // To assign task to a user
     Route::get('{userID}/tasks','TaskController@getTasks');                 // obtain all user's task assigned
+    Route::put('{userID}/tasks/{taskID}', 'TaskController@updateStatus');   // update status of a task
 
     # SCORE API
     Route::post('{userID}/score/{taskID}', 'ScoreController@addScore');     // assign a score to a module
