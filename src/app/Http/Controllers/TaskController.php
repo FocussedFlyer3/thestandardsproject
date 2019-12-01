@@ -7,6 +7,7 @@ use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Log;
 use App\Task;
 use App\User;
+use App\TaskUser;
 use Auth;
 
 class TaskController extends Controller
@@ -84,22 +85,39 @@ class TaskController extends Controller
     public function getTasks($userID) {
         $user = User::with('tasks.scores')->find($userID);
 
-        $tasks = $user->tasks;
-        foreach ($tasks as $index => $task) {
-            $scores = $task->scores;
-            foreach ($scores as $score) {
-                if ($score['user_id'] == $userID) {
-                    $score = $score->makeHidden(['user_id']);
-                    $tasks[$index]->setAttribute('scoreInfo', $score);
-                    break;
+        if ($user->role == 0) {                      // student
+            $tasks = $user->tasks;
+            foreach ($tasks as $index => $task) {
+                $scores = $task->scores;
+                foreach ($scores as $score) {
+                    if ($score['user_id'] == $userID) {
+                        $score = $score->makeHidden(['user_id']);
+                        $tasks[$index]->setAttribute('scoreInfo', $score);
+                        $tasks[$index]->setAttribute('status', $task->pivot->status);
+                        break;
+                    }
                 }
             }
+    
+            $tasks = $tasks->makeHidden(['scores']);
+            $response = [
+                'tasks' => $tasks
+            ];
+        } else if ($user->role == 1) {               // teacher
+            
+            $tasks = TaskUser::all()->where('assigned_by_id', $userID);
+            info(json_encode($tasks));
+            foreach($tasks as $index => $task ) {
+                $tasks[$index]->makeHidden(['assigned_by_id']);
+                $tasks[$index]['task_details'] = Task::find($tasks[$index]['task_id']);
+                $tasks[$index]['user_details'] = User::find($tasks[$index]['user_id']);
+            }
+
+            $response = [
+                'tasks' => $tasks
+            ];
         }
 
-        $tasks = $tasks->makeHidden(['scores']);
-        $response = [
-            'tasks' => $tasks
-        ];
 
         $response = json_encode($response);
         
