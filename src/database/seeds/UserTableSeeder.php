@@ -135,15 +135,5 @@ class UserTableSeeder extends Seeder
             'role' => 0,
             'api_token' => str_random(60)
             ));
-        
-        User::create(array(
-            'name'     => 'Larry',
-            'username' => 'Larry',
-            'email'    => 'Larry@homestead.com',
-            'password' => Hash::make('zxcasdqwe123'),
-            'role' => 1,
-            'api_token' => str_random(60)
-            ));
-
     }
 }

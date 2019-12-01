@@ -74,12 +74,12 @@ class ScoreTableSeeder extends Seeder
             ),
             array(
                 'user_id' => 4,
-                'score' => 0,
+                'score' => 70.00,
                 'class_id' => 1
             ),
             array(
                 'user_id' => 5,
-                'score' => 0,
+                'score' => 100.00,
                 'class_id' => 1
             ),
             array(
@@ -89,7 +89,7 @@ class ScoreTableSeeder extends Seeder
             ),
             array(
                 'user_id' => 7,
-                'score' => 0,
+                'score' => 50.00,
                 'class_id' => 1
             ),
             array(
@@ -119,6 +119,41 @@ class ScoreTableSeeder extends Seeder
             ),
             array(
                 'user_id' => 11,
+                'score' => 0,
+                'class_id' => 1
+            ),
+            array(
+                'user_id' => 4,
+                'score' => 0,
+                'class_id' => 1
+            ),
+            array(
+                'user_id' => 5,
+                'score' => 0,
+                'class_id' => 1
+            ),
+            array(
+                'user_id' => 6,
+                'score' => 0,
+                'class_id' => 1
+            ),
+            array(
+                'user_id' => 5,
+                'score' => 50.65,
+                'class_id' => 1
+            ),
+            array(
+                'user_id' => 4,
+                'score' => 60.25,
+                'class_id' => 1
+            ),
+            array(
+                'user_id' => 4,
+                'score' => 10,
+                'class_id' => 1
+            ),
+            array(
+                'user_id' => 4,
                 'score' => 0,
                 'class_id' => 1
             )

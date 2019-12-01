@@ -38,4 +38,8 @@ class Score extends Model
         return $this->belongsToMany(Task::class, 'task_user', 'score_id', 'task_id')->using(TaskUser::class);
     }
 
+    public function records(){
+        return $this->belongsToMany(Record::class, 'score_record', 'score_id', 'record_id')->using(ScoreRecord::class);
+    }
+
 }

@@ -28,23 +28,34 @@ This is an object representing a classroom. You can create new user, update and 
 ```  
 ---
 
-- [Get User's Classrooms](/{{route}}/{{version}}/classroom#section-1)
-- [Get Classroom Benchmarks](/{{route}}/{{version}}/classroom#section-2)
-- [Create New Classroom](/{{route}}/{{version}}/classroom#section-3)
-- [Assign Classroom to a User](/{{route}}/{{version}}/classroom#section-4)
-- [Update Classroom Informations](/{{route}}/{{version}}/classroom#section-5)
-- [Delete a Classroom](/{{route}}/{{version}}/classroom#section-6)
+- [Get All Classrooms](/{{route}}/{{version}}/classroom#section-1)
+- [Get User's Classrooms](/{{route}}/{{version}}/classroom#section-2)
+- [Get Classroom Benchmarks](/{{route}}/{{version}}/classroom#section-3)
+- [Create New Classroom](/{{route}}/{{version}}/classroom#section-4)
+- [Assign Classroom to a User](/{{route}}/{{version}}/classroom#section-5)
+- [Update Classroom Informations](/{{route}}/{{version}}/classroom#section-6)
 
 <a id="section-1"></a>
+## Get all Classrooms
+Endpoint:
+This API will return all available classrooms in system.
+```perl
+GET 'classroom'
+```
+
+<br/>
+
+<a id="section-2"></a>
 ## Get User's Classrooms
 This API will return all of the classrooms assigned to a user base on the `{userID}`.  
 Endpoint:
 ```perl
 GET '{userID}/classroom'
 ```
+
 <br/>
 
-<a id="section-2"></a>
+<a id="section-3"></a>
 ## Get Classroom Details
 This API will return number of students that are proficent/almost proficent/non proficent in the class base on the `{classID}`.  
 Endpoint:
@@ -63,9 +74,10 @@ with `{benchmark}` options:
 "ap": almost proficient students
 "np": non proficient students
 ```
+
 <br/>
 
-<a id="section-3"></a>
+<a id="section-4"></a>
 ## Create New Classroom
 Endpoint:
 ```perl
@@ -86,7 +98,9 @@ Expected Body on POST:
 ```  
 > {warning} Formatting for `starts_at` and `ends_at` must obey `HH:MM:SS`
 
-<a id="section-4"></a>
+<br/>
+
+<a id="section-5"></a>
 ## Assign Classroom to a User
 Endpoint:
 ```perl
@@ -99,8 +113,10 @@ Expected Body on POST:
 	"id": [1,2]
 }
 ```
+
 <br/>
-<a id="section-5"></a>
+
+<a id="section-6"></a>
 ## Update Classroom Informations
 Endpoint:
 ```perl
@@ -120,5 +136,3 @@ Expected Body on POST:
 ```
 > {warning} Formatting for `starts_at` and `ends_at` must obey `HH:MM:SS`
 
-<a id="section-6"></a>
-## Delete a Classroom

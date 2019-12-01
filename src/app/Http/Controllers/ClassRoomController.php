@@ -22,6 +22,21 @@ class ClassRoomController extends Controller {
     */
 
     /**
+     * Get all classrooms available
+     * 
+     */
+    public function getAllClasses() {
+        $classes = Classes::all();
+
+        $response = [
+            'classroom' => $classes
+        ];
+        $response = json_encode($response);
+        
+        return response($response, Response::HTTP_OK);
+    }
+
+    /**
      * Create new classroom
      * @param $userID id of the user creating new classroom
      * @param $request containing new classroom info to be created
@@ -239,18 +254,15 @@ class ClassRoomController extends Controller {
         // 1 - teacher
         switch ($user->role) {
             case 0: $classrooms = $user->classes; break;
-            case 1: $classrooms = Classes::where('teacher_id', $userID)->get(); break;
+            case 1: $classrooms = Classes::withCount('users')->where('teacher_id', $userID)->get(); break;
             default: $classrooms = null;
         }
 
         // response JSON
         $response = [
             'classes' => [
-                'classrooms' => $classrooms,
-                'notifications' => [
-                    'total' => 0,
-                    'items' => []
-                ]
+                'classrooms' => $classrooms
+                // TODO
             ]
         ];
         $response = json_encode($response);
@@ -297,7 +309,7 @@ class ClassRoomController extends Controller {
         }
 
         // filter students base on levels specified
-        $result = $this->filterResult($modules, $level);
+        $result = $this->filterResult($modules, $level, $role, $user);
 
         $response = json_encode($result);
 
@@ -311,8 +323,18 @@ class ClassRoomController extends Controller {
      * 
      * @return filtered JSON result
      */
-    private function filterResult ($modules, $level) {
-        $allStandards = $this->getAllScores($modules);
+    private function filterResult ($modules, $level, $role, $user) {
+        $allModule = [];
+        $moduleCount = 0;
+        $targetID = [];
+        $targetCount = 0;
+
+        if ($role == 0) {           // student
+            $allStandards = $this->getScore($user);
+        } else if ($role == 1) {    // teacher
+            $allStandards = $this->getAllScores($modules);
+        }
+
         switch ($level){
             case 0: $students = $allStandards['proficient']; break;
             case 1: $students = $allStandards['almostProficient']; break;
@@ -328,6 +350,7 @@ class ClassRoomController extends Controller {
         foreach($modulesString->modules as $index => $module){
             $temp = [];
             $count = 0;
+
             foreach($module->scores as $score){
 
                 if (in_array(json_decode($score->user_id,true), $ids, true)) {
@@ -335,10 +358,58 @@ class ClassRoomController extends Controller {
                 }
             }
             $module->scores = $temp;
+            $moduleCount++;
 
         }
 
-        return $modulesString;
+        $student_target = [];
+        $tempCount = 0;
+        $tempIds = [];
+        foreach($modulesString->modules as $index => $module) {
+            foreach($module->scores as $student) {
+
+                if (array_key_exists(json_decode($student->user_id, true), $tempIds)) {
+                    $target = [
+                        'id' => $module->id,
+                        'name' => $module->name,
+                        'description' => $module->description,
+                        'score_details' => [
+                            'id' => $student->score_id,
+                            'score' => $student->score
+                        ]
+                    ];
+                    array_push($student_target[$tempIds[$student->user_id]]['targets'], $target);
+                } else {
+                    $currentStudent = [
+                        'id' => $student->users->id,
+                        'name' => $student->users->name,
+                        'targets' => [
+                            [
+                            'id' => $module->id,
+                            'name' => $module->name,
+                            'description' => $module->description,
+                                'score_details' => [
+                                    'id' => $student->score_id,
+                                    'score' => $student->score
+                                ]
+                            ]
+                        ]
+                    ];
+
+                    $tempIds[$student->users->id] = $tempCount;
+                    $student_target[$tempCount] = $currentStudent;
+                    $tempCount++;
+                }
+
+            }
+        }
+
+        $response = [
+            'target_count' => $moduleCount,
+            'details' => $student_target
+        ];
+
+        return $response;
     }
 
     /**
@@ -502,15 +573,15 @@ class ClassRoomController extends Controller {
         }
 
         $result = [
-            'proeficent' => [
+            'proficient' => [
                 'count' => $proeficent,
                 'users' => $proeficentStudents
             ],
-            'almostProeficent' => [
+            'almostProficient' => [
                 'count' => $almostProeficent,
                 'users' => $almostProeficentStudents
             ],
-            'notProeficent' => [
+            'notProficient' => [
                 'count' => $notProeficent,
                 'users' => $notProeficentStudents
             ]

@@ -51,6 +51,7 @@ Route::group(['prefix' => 'v1', 'middleware' => 'auth:api'], function () {
     Route::post('{userID}/account', 'AccountController@updateInfo');    // update account info
 
     # CLASSROOM API
+    Route::get('classroom', 'ClassRoomController@getAllClasses');                                   // obtain all available classrooms
     Route::get('{userID}/classroom', 'ClassRoomController@getClasses');                             // obtain user's classroom info
     Route::get('{userID}/classroom/{classID}', 'ClassRoomController@getClassDetails');              // obtain classroom info
     Route::get('{userID}/classroom/{classID}/{benchmark}', 'ClassRoomController@getScoreDetails');  // obtain detail breakdown of student progress
@@ -62,8 +63,12 @@ Route::group(['prefix' => 'v1', 'middleware' => 'auth:api'], function () {
     // assign and get task
     Route::post('{userID}/assign/{taskID}', 'TaskController@assignTask');   // To assign task to a user
     Route::get('{userID}/tasks','TaskController@getTasks');                 // obtain all user's task assigned
+    Route::put('{userID}/tasks/{taskID}', 'TaskController@updateStatus');   // update status of a task
 
     # SCORE API
     Route::post('{userID}/score/{taskID}', 'ScoreController@addScore');     // assign a score to a module
+
+    # RECORD API
+    Route::get('{userID}/record/{taskID}', 'RecordController@getRecord');  // get a assigned task record
 });
 

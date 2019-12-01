@@ -21,6 +21,9 @@ Account login through email only.
 <a id="section-1"></a>
 ## Login Email
 To login using email.  
+
+> {warning} This API do not requires Authorization Header
+
 Endpoint:
 ```perl
 POST '/account/login'
@@ -33,11 +36,15 @@ Expected Body on POST:
 	"password": "passwordone"
 }
 ```
+
 <br/>
 
 <a id="section-2"></a>
 ## Create New User
 To sign up new user with email.  
+
+> {warning} This API do not requires Authorization Header
+
 Endpoint:
 ```perl
 POST '/account/signup'
@@ -53,6 +60,7 @@ Expected Body on POST:
     "role": 1
 }
 ```
+
 <br/>
 
 <a id="section-3"></a>

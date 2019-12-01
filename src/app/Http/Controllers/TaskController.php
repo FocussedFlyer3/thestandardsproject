@@ -7,6 +7,7 @@ use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Log;
 use App\Task;
 use App\User;
+use App\TaskUser;
 use Auth;
 
 class TaskController extends Controller
@@ -34,10 +35,11 @@ class TaskController extends Controller
         $students= $data['task']['students_id'];
 
         try {
-            foreach ($students as $studentID){
+            foreach ($students as $studentID){ 
+
                 // assign task to user 
                 $user = User::find($studentID);
-                $user->tasks()->attach($taskID,['assigned_by_id' => $userID]);
+                $user->tasks()->attach($taskID,['assigned_by_id' => $userID, 'status' => 0]);
             }
         } catch (\Illuminate\Database\QueryException $e){
             $error = [
@@ -83,22 +85,48 @@ class TaskController extends Controller
     public function getTasks($userID) {
         $user = User::with('tasks.scores')->find($userID);
 
-        $tasks = $user->tasks;
-        foreach ($tasks as $index => $task) {
-            $scores = $task->scores;
-            foreach ($scores as $score) {
-                if ($score['user_id'] == $userID) {
-                    $score = $score->makeHidden(['user_id']);
-                    $tasks[$index]->setAttribute('scoreInfo', $score);
-                    break;
+        if ($user->role == 0) {                      // student
+            $tasks = $user->tasks;
+            $taskCount = 0;
+            foreach ($tasks as $index => $task) {
+                $scores = $task->scores;
+                foreach ($scores as $score) {
+                    if ($score['user_id'] == $userID) {
+                        $score = $score->makeHidden(['user_id']);
+                        $tasks[$index]->setAttribute('scoreInfo', $score);
+                        $tasks[$index]->setAttribute('status', $task->pivot->status);
+                        $taskCount++;
+                        break;
+                    }
                 }
             }
-        }
+    
+            $tasks = $tasks->makeHidden(['scores']);
+            $response = [
+                'tasks' => [
+                    'count' => $taskCount,
+                    'details' => $tasks
+                ]
+            ];
+        } else if ($user->role == 1) {               // teacher
+            $tempTasks = [];
+            $taskCount = 0;
+            $tasks = TaskUser::all()->where('assigned_by_id', $userID);
+            foreach($tasks as $index => $task) {
+                $tasks[$index]->makeHidden(['assigned_by_id']);
+                $tasks[$index]['task_details'] = Task::find($tasks[$index]['task_id']);
+                $tasks[$index]['user_details'] = User::find($tasks[$index]['user_id']);
+                $tempTasks[$taskCount++] = $tasks[$index];
+            }
 
-        $tasks = $tasks->makeHidden(['scores']);
-        $response = [
-            'tasks' => $tasks
-        ];
+            $response = [
+                'tasks' => [
+                    'count' => $taskCount,
+                    'details' => $tempTasks
+                ]
+            ];
+
+        }
 
         $response = json_encode($response);
         
@@ -115,6 +143,36 @@ class TaskController extends Controller
     public function removeTask($userID, $taskID) {
         $user = User::with('tasks')->find($userID);
         $user->tasks()->detach($taskID,['assigned_by_id' => $userID]);
+    }
+
+    /**
+     * Update status of a task
+     * @param $userID is the user's id
+     * @param $taskID is the task's id
+     */
+    public function updateStatus($userID, $taskID) {
+        $user = User::with('tasks')->find($userID);
+
+        // check if task exist
+        $task = $user->tasks->where('id', $taskID)->first();
+        if ($task) {
+            $currentTask = Task::find($taskID);
+            $currentTask->users()->updateExistingPivot($userID, ['status' => 1]);
+
+            $response = [
+                'code' => 200,
+                'messsage' => 'Task successfully updated!'
+            ];
+
+            return response($response, Response::HTTP_OK);
+        } else {
+            $error = [
+                'code' => 403,
+                'message' => 'Error: task id `('.$taskID.')` could not be found for user id `('.$userID.')`'
+            ];
+
+            return response($error,Response::HTTP_BAD_REQUEST);
+        }
     }
 
 }

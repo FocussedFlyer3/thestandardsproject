@@ -6,3 +6,4 @@
     - [Classroom](/{{route}}/{{version}}/classroom)
     - [Task](/{{route}}/{{version}}/task)
     - [Score](/{{route}}/{{version}}/score)
+    - [Record](/{{route}}/{{version}}/record)
