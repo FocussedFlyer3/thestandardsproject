@@ -87,6 +87,7 @@ class TaskController extends Controller
 
         if ($user->role == 0) {                      // student
             $tasks = $user->tasks;
+            $taskCount = 0;
             foreach ($tasks as $index => $task) {
                 $scores = $task->scores;
                 foreach ($scores as $score) {
@@ -94,6 +95,7 @@ class TaskController extends Controller
                         $score = $score->makeHidden(['user_id']);
                         $tasks[$index]->setAttribute('scoreInfo', $score);
                         $tasks[$index]->setAttribute('status', $task->pivot->status);
+                        $taskCount++;
                         break;
                     }
                 }
@@ -101,21 +103,29 @@ class TaskController extends Controller
     
             $tasks = $tasks->makeHidden(['scores']);
             $response = [
-                'tasks' => $tasks
+                'tasks' => [
+                    'count' => $taskCount,
+                    'details' => $tasks
+                ]
             ];
         } else if ($user->role == 1) {               // teacher
-            
+            $tempTasks = [];
+            $taskCount = 0;
             $tasks = TaskUser::all()->where('assigned_by_id', $userID);
-            info(json_encode($tasks));
-            foreach($tasks as $index => $task ) {
+            foreach($tasks as $index => $task) {
                 $tasks[$index]->makeHidden(['assigned_by_id']);
                 $tasks[$index]['task_details'] = Task::find($tasks[$index]['task_id']);
                 $tasks[$index]['user_details'] = User::find($tasks[$index]['user_id']);
+                $tempTasks[$taskCount++] = $tasks[$index];
             }
 
             $response = [
-                'tasks' => $tasks
+                'tasks' => [
+                    'count' => $taskCount,
+                    'details' => $tempTasks
+                ]
             ];
+
         }
 
         $response = json_encode($response);
