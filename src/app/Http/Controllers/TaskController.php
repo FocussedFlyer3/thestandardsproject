@@ -22,12 +22,29 @@ class TaskController extends Controller
     */
 
     /**
+     * To get all tasks available
+     * 
+     * @return HTTP response with all tasks available
+     */
+    public function getAllTasks () {
+        $task = Task::all();
+
+        $response = [
+            'tasks' => $task
+        ];
+
+        $response = json_encode($response);
+        
+        return response($response, Response::HTTP_OK);
+    }
+
+    /**
      * Assign task to a group of users
      * @param $userID is the assignor id
      * @param $taskID is the task assignor selected to assign
      * @param $request is a json body containing assignee ids to assigned to
      *
-     * @return HTTP response //TODO
+     * @return HTTP response 
      */
     public function assignTask($userID, $taskID, Request $request) {
         $data = json_decode($request->getContent(), true);
