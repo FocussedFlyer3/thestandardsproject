@@ -135,4 +135,34 @@ class TaskController extends Controller
         $user->tasks()->detach($taskID,['assigned_by_id' => $userID]);
     }
 
+    /**
+     * Update status of a task
+     * @param $userID is the user's id
+     * @param $taskID is the task's id
+     */
+    public function updateStatus($userID, $taskID) {
+        $user = User::with('tasks')->find($userID);
+
+        // check if task exist
+        $task = $user->tasks->where('id', $taskID)->first();
+        if ($task) {
+            $currentTask = Task::find($taskID);
+            $currentTask->users()->updateExistingPivot($userID, ['status' => 1]);
+
+            $response = [
+                'code' => 200,
+                'messsage' => 'Task successfully updated!'
+            ];
+
+            return response($response, Response::HTTP_OK);
+        } else {
+            $error = [
+                'code' => 403,
+                'message' => 'Error: task id `('.$taskID.')` could not be found for user id `('.$userID.')`'
+            ];
+
+            return response($error,Response::HTTP_BAD_REQUEST);
+        }
+    }
+
 }
