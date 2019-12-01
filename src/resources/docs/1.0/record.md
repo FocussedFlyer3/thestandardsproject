@@ -1,7 +1,7 @@
 # Record  
 This is an object representing recordings of a student's answers to a task. You can only call a `GET` to obtain the record.
 <br/>
-> {info} Manipulating this record requires a `POST` with correct JSON body using [score API](/{{route}}/{{version}}/score#section-1).
+> {info} Manipulating this record requires a `POST` with correct JSON body in `records` attribute using [score API](/{{route}}/{{version}}/score#section-1).
 
 ---
 
@@ -30,5 +30,5 @@ Expected return body on GET:
 }
 ```
 
-> {info} `"module_records"` is an escaped JSON string, it should be parsed before using it.
+> {info} `"module_records"` is an escaped JSON string and it should be parsed before using it.
 

@@ -36,6 +36,7 @@ Expected Body on POST:
 	"password": "passwordone"
 }
 ```
+
 <br/>
 
 <a id="section-2"></a>
@@ -59,6 +60,7 @@ Expected Body on POST:
     "role": 1
 }
 ```
+
 <br/>
 
 <a id="section-3"></a>

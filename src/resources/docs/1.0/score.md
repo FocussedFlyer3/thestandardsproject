@@ -4,11 +4,13 @@ For now, you can only update a score of an assigned task.
 
 ---
 
-- [Post API From a Task](/{{route}}/{{version}}/score#section-1)
+- [Post API from a Task](/{{route}}/{{version}}/score#section-1)
 
 <a id="section-1"></a>
 ## Post API from a task
-This API assigns scores to a task as well as records student's answers from task.
+This API assigns scores to a task, records student's answers from task and update status of task to done `2`.
+
+> {info} This will be the only way to update a user's task to done status `2`.
 
 Endpoint:
 ```perl
@@ -21,24 +23,28 @@ Expected Body on POST:
 	"score": "50",
 	"class_id": "1",
 	"records": {
-	    "game_score": 100,
-		"quiz_score": 8,
+		"game_score": 100,
+		"quiz_score": 5,
 		"student_answers": [
 		{
 			"question_id": 1,
-			"answer": "B"
+			"answer": "B",
+			"correct_answer": "A"
 		},
 		{
 			"question_id": 2,
-			"answer": "D"
+			"answer": "A",
+			"correct_answer": "B"
 		},
 		{
 			"question_id": 3,
-			"answer": "D"
+			"answer": "D",
+			"correct_answer": "D"
 		},
 		{
 			"question_id": 4,
-			"answer": "C"
+			"answer": "B",
+			"correct_answer": "B"
 		}
 		]
 	}

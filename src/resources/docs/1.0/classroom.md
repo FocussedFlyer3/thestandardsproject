@@ -34,7 +34,6 @@ This is an object representing a classroom. You can create new user, update and 
 - [Create New Classroom](/{{route}}/{{version}}/classroom#section-4)
 - [Assign Classroom to a User](/{{route}}/{{version}}/classroom#section-5)
 - [Update Classroom Informations](/{{route}}/{{version}}/classroom#section-6)
-- [Delete a Classroom](/{{route}}/{{version}}/classroom#section-7)
 
 <a id="section-1"></a>
 ## Get all Classrooms
@@ -43,6 +42,7 @@ This API will return all available classrooms in system.
 ```perl
 GET 'classroom'
 ```
+
 <br/>
 
 <a id="section-2"></a>
@@ -52,6 +52,7 @@ Endpoint:
 ```perl
 GET '{userID}/classroom'
 ```
+
 <br/>
 
 <a id="section-3"></a>
@@ -73,6 +74,7 @@ with `{benchmark}` options:
 "ap": almost proficient students
 "np": non proficient students
 ```
+
 <br/>
 
 <a id="section-4"></a>
@@ -96,6 +98,8 @@ Expected Body on POST:
 ```  
 > {warning} Formatting for `starts_at` and `ends_at` must obey `HH:MM:SS`
 
+<br/>
+
 <a id="section-5"></a>
 ## Assign Classroom to a User
 Endpoint:
@@ -109,7 +113,9 @@ Expected Body on POST:
 	"id": [1,2]
 }
 ```
+
 <br/>
+
 <a id="section-6"></a>
 ## Update Classroom Informations
 Endpoint:
@@ -130,5 +136,3 @@ Expected Body on POST:
 ```
 > {warning} Formatting for `starts_at` and `ends_at` must obey `HH:MM:SS`
 
-<a id="section-7"></a>
-## Delete a Classroom
