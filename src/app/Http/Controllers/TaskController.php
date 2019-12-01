@@ -118,7 +118,6 @@ class TaskController extends Controller
             ];
         }
 
-
         $response = json_encode($response);
         
         return response($response, Response::HTTP_OK);

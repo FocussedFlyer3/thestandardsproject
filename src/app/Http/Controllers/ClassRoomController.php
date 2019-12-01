@@ -372,7 +372,11 @@ class ClassRoomController extends Controller {
                     $target = [
                         'id' => $module->id,
                         'name' => $module->name,
-                        'description' => $module->description
+                        'description' => $module->description,
+                        'score_details' => [
+                            'id' => $student->score_id,
+                            'score' => $student->score
+                        ]
                     ];
                     array_push($student_target[$tempIds[$student->user_id]]['targets'], $target);
                 } else {
@@ -383,7 +387,11 @@ class ClassRoomController extends Controller {
                             [
                             'id' => $module->id,
                             'name' => $module->name,
-                            'description' => $module->description
+                            'description' => $module->description,
+                                'score_details' => [
+                                    'id' => $student->score_id,
+                                    'score' => $student->score
+                                ]
                             ]
                         ]
                     ];
