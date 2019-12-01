@@ -324,6 +324,10 @@ class ClassRoomController extends Controller {
      * @return filtered JSON result
      */
     private function filterResult ($modules, $level, $role, $user) {
+        $allModule = [];
+        $moduleCount = 0;
+        $studentsID = [];
+        $studentCount = 0;
 
         if ($role == 0) {           // student
             $allStandards = $this->getScore($user);
@@ -346,9 +350,29 @@ class ClassRoomController extends Controller {
         foreach($modulesString->modules as $index => $module){
             $temp = [];
             $count = 0;
+
+            $target = [
+                'id' => $module->id,
+                'target' => $module->name,
+                'description' => $module->description
+            ];
             foreach($module->scores as $score){
 
                 if (in_array(json_decode($score->user_id,true), $ids, true)) {
+                    if (!in_array(json_decode($score->user_id,true), $studentsID, true)) {
+                        $target['score'] = $score->score;
+                        $a = [
+                            'student_id' => $score->user_id,
+                            'name' => User::find($score->user_id)->name,
+                            'target' => $target,
+                        ];
+
+                        $studentsID[$studentCount] = $score->user_id;
+                        $allModule[$moduleCount] = $a;
+
+                        $moduleCount++;
+                        $studentCount++;
+                    }
                     $temp[$count++] = $score;
                 }
             }
@@ -356,7 +380,12 @@ class ClassRoomController extends Controller {
 
         }
 
-        return $modulesString;
+        $response = [ 
+            'count' => $moduleCount,
+            'details' => $allModule
+        ];
+
+        return $response;
     }
 
     /**
