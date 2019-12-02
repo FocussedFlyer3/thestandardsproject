@@ -51,7 +51,8 @@ class AccountController extends Controller
 
         // check if user exist
         $currentUser = User::where('email', $userInfo['email']);
-        if ($currentUser != NULL) {
+        info(json_encode($currentUser));
+        if (empty($currentUser)) {
             $error = [
                 'error' => [
                     'message' => 'User already exist for: '.$data['account']['email'],
