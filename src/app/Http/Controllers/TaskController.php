@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Log;
 use App\Task;
 use App\User;
 use App\TaskUser;
+use App\Score;
 use Auth;
 
 class TaskController extends Controller
@@ -53,10 +54,16 @@ class TaskController extends Controller
 
         try {
             foreach ($students as $studentID){ 
+                // insert score
+                $score = new Score;
+                $score->user_id = $studentID;
+                $score->score = 0;
+                $score->class_id = $classID;
+                $score->save();
 
                 // assign task to user 
                 $user = User::find($studentID);
-                $user->tasks()->attach($taskID,['assigned_by_id' => $userID, 'status' => 0]);
+                $user->tasks()->attach($taskID,['score_id' => $score->score_id, 'assigned_by_id' => $userID, 'status' => 0]);
             }
         } catch (\Illuminate\Database\QueryException $e){
             $error = [
