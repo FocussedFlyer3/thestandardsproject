@@ -55,6 +55,10 @@ class ScoreController extends Controller
                     'records' => $data['scoreInfo']['records']
                 ];
                 $score->records()->update(['module_records' => json_encode($recordedModule)]);
+
+                // default called to this API updates status to '2' as done
+                $currentTask = Task::find($taskID);
+                $currentTask->users()->updateExistingPivot($userID, ['status' => 2]);
      
             } catch (Exception $e){
                 $error = [
