@@ -17,6 +17,8 @@ class CreateTasksTable extends Migration
             $table->bigIncrements('id');
             $table->string('name');
             $table->string('url');
+            $table->biginteger('module_id')->unsigned();
+            $table->foreign('module_id')->references('id')->on('modules');
             $table->timestamps();
         });
     }

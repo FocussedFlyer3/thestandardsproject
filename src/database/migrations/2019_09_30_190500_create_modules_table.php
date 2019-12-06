@@ -19,6 +19,7 @@ class CreateModulesTable extends Migration
             $table->biginteger('grade')->unsigned();
             $table->string('name');
             $table->string('description');
+            $table->string('details');
             $table->timestamps();
         });
     }
