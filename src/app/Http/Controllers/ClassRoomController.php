@@ -362,51 +362,8 @@ class ClassRoomController extends Controller {
 
         }
 
-        $student_target = [];
-        $tempCount = 0;
-        $tempIds = [];
-        foreach($modulesString->modules as $index => $module) {
-            foreach($module->scores as $student) {
-
-                if (array_key_exists(json_decode($student->user_id, true), $tempIds)) {
-                    $target = [
-                        'id' => $module->id,
-                        'name' => $module->name,
-                        'description' => $module->description,
-                        'score_details' => [
-                            'id' => $student->score_id,
-                            'score' => $student->score
-                        ]
-                    ];
-                    array_push($student_target[$tempIds[$student->user_id]]['targets'], $target);
-                } else {
-                    $currentStudent = [
-                        'id' => $student->users->id,
-                        'name' => $student->users->name,
-                        'targets' => [
-                            [
-                            'id' => $module->id,
-                            'name' => $module->name,
-                            'description' => $module->description,
-                                'score_details' => [
-                                    'id' => $student->score_id,
-                                    'score' => $student->score
-                                ]
-                            ]
-                        ]
-                    ];
-
-                    $tempIds[$student->users->id] = $tempCount;
-                    $student_target[$tempCount] = $currentStudent;
-                    $tempCount++;
-                }
-
-            }
-        }
-
         $response = [
-            'target_count' => $moduleCount,
-            'details' => $student_target
+            'targets' => $modulesString
         ];
 
         return $response;
