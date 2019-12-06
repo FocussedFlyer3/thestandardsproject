@@ -13,7 +13,7 @@ class CreateModuleStandardizedTable extends Migration
      */
     public function up()
     {
-        Schema::create('modules_standardized', function (Blueprint $table) {
+        Schema::create('module_standardized', function (Blueprint $table) {
             $table->biginteger('module_id')->unsigned();
             $table->foreign('module_id')->references('id')->on('modules');
             $table->biginteger('standardized_id')->unsigned();

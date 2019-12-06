@@ -13,10 +13,10 @@ class ModuleStandardizedTableSeeder extends Seeder
     {
         // resets tables
         DB::statement('SET FOREIGN_KEY_CHECKS=0');  
-        DB::table('modules_standardized')->truncate();
+        DB::table('module_standardized')->truncate();
 
         //  insert mock scores  
-        DB::table('modules_standardized')->insert(array(
+        DB::table('module_standardized')->insert(array(
             array(
                 'module_id' => 1,
                 'standardized_id' => 1
