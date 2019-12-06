@@ -324,10 +324,6 @@ class ClassRoomController extends Controller {
      * @return filtered JSON result
      */
     private function filterResult ($modules, $level, $role, $user) {
-        $allModule = [];
-        $moduleCount = 0;
-        $targetID = [];
-        $targetCount = 0;
 
         if ($role == 0) {           // student
             $allStandards = $this->getScore($user);
@@ -347,18 +343,38 @@ class ClassRoomController extends Controller {
         }
 
         $modulesString = json_decode(json_encode($modules));
+        info(json_encode($modulesString));
         foreach($modulesString->modules as $index => $module){
             $temp = [];
             $count = 0;
+            $proficient = 0;
+            $almostProficient = 0;
+            $notProficient = 0;
 
             foreach($module->scores as $score){
 
                 if (in_array(json_decode($score->user_id,true), $ids, true)) {
                     $temp[$count++] = $score;
+
+                    switch (true) {
+                        case $score->score < 40.00:
+                            $notProficient++;
+                            break;
+                        
+                        case $score->score < 75.00:
+                            $almostProficient++;
+                            break;
+                        
+                        case $score->score > 75.00:
+                            $proficient++;
+                            break;
+                    }
                 }
             }
             $module->scores = $temp;
-            $moduleCount++;
+            $module->proficient = $proficient;
+            $module->almost_proficient = $almostProficient;
+            $module->non_proficient = $notProficient;
 
         }
 
