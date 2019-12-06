@@ -51,13 +51,15 @@ Route::group(['prefix' => 'v1', 'middleware' => 'auth:api'], function () {
     Route::post('{userID}/account', 'AccountController@updateInfo');    // update account info
 
     # CLASSROOM API
-    Route::get('classroom', 'ClassRoomController@getAllClasses');                                   // obtain all available classrooms
-    Route::get('{userID}/classroom', 'ClassRoomController@getClasses');                             // obtain user's classroom info
-    Route::get('{userID}/classroom/{classID}', 'ClassRoomController@getClassDetails');              // obtain classroom info
-    Route::get('{userID}/classroom/{classID}/{benchmark}', 'ClassRoomController@getScoreDetails');  // obtain detail breakdown of student progress
-    Route::post('{userID}/classroom-assign', 'ClassRoomController@assignClass');                    // assign classroom to user
-    Route::post('{userID}/classroom', 'ClassRoomController@newClass');                              // create new classroom
-    Route::post('{userID}/classroom/{classID}', 'ClassRoomController@updateClassInfo');             // update classroom info
+    Route::get('classroom', 'ClassRoomController@getAllClasses');                                              // obtain all available classrooms
+    Route::get('{userID}/classroom', 'ClassRoomController@getClasses');                                        // obtain user's classroom info
+    Route::get('{userID}/classroom/{classID}', 'ClassRoomController@getClassDetails');                         // obtain classroom info
+    Route::get('{userID}/classroom/{classID}/{benchmark}', 'ClassRoomController@getScoreDetails');             // obtain targets with proficencies
+    Route::get('{userID}/classroom/{classID}/{benchmark}/{targetID}', 'ClassRoomController@getTargetDetails'); // obtain details breakdown of students' scores
+    Route::post('{userID}/classroom-assign', 'ClassRoomController@assignClass');                               // assign classroom to user
+    Route::post('{userID}/classroom', 'ClassRoomController@newClass');                                         // create new classroom
+    Route::post('{userID}/classroom/{classID}', 'ClassRoomController@updateClassInfo');                        // update classroom info
+
 
     # TASK API
     // assign and get task

@@ -317,6 +317,113 @@ class ClassRoomController extends Controller {
     }
 
     /**
+     * To get students' scores in this target
+     * @param $userID is user's id in system
+     * @param $classID is the class's id in system
+     * @param $benchmark is the benchmark (Proficient, Almost Proficient, Not Proficient)
+     * @param $targetID is the target specified
+     * 
+     * @return response JSON result
+     */
+    public function getTargetDetails ($userID, $classID, $benchmark, $targetID) {
+        $user = User::find($userID);
+
+        // check user's role
+        switch ($user->role) {
+            case 0: $role = 0; break;   // student
+            case 1: $role = 1; break;   // teacher
+            default: $role = null;
+        }
+
+        // get all modules and scores for this class
+        $modules = Classes::with('modules.scores.users')->find($classID);
+        $modules->makeHidden(['starts_at', 'ends_at', 'room', 'teacher_id']);
+        //  info($modules);
+
+        // check proficient level
+        switch ($benchmark) {
+            case 'p': $level = 0; break;    // proficient 
+            case 'ap': $level = 1; break;   // almost proficient 
+            case 'np': $level = 2; break;   // not proficient 
+            default: $level = null;
+        }
+
+        // filter students base on levels specified
+        $result = $this->filterTargetResult($modules, $level, $role, $user, $targetID);
+
+        $response = json_encode($result);
+
+        return response($response, Response::HTTP_OK);
+    }
+
+    /**
+     * Local funciton to filter results base on target specified
+     * @param $modules is an array of targets to be achieved in class
+     * @param $level is the benchmark (Proficient, Almost Proficient, Not Proficient)
+     * 
+     * @return filtered JSON result
+     */
+    private function filterTargetResult($modules, $level, $role, $user, $targetID){
+        if ($role == 0) {           // student
+            $allStandards = $this->getScore($user);
+        } else if ($role == 1) {    // teacher
+            $allStandards = $this->getAllScores($modules);
+        }
+
+        switch ($level){
+            case 0: $students = $allStandards['proficient']; break;
+            case 1: $students = $allStandards['almostProficient']; break;
+            case 2: $students = $allStandards['notProficient']; break;
+        }
+
+        $count = 0;
+        foreach($students['users'] as $student){
+            $ids[$count++] = $student['id'];
+        }
+
+        $modulesString = json_decode(json_encode($modules));
+        foreach($modulesString->modules as $index => $module){
+            $temp = [];
+            $count = 0;
+            $proficient = 0;
+            $almostProficient = 0;
+            $notProficient = 0;
+
+            if ($module->id == $targetID) {
+                foreach($module->scores as $score){
+                    if (in_array(json_decode($score->user_id,true), $ids, true)) {
+                        $temp[$count++] = $score;
+    
+                        switch (true) {
+                            case $score->score < 40.00:
+                                $notProficient++;
+                                break;
+                            
+                            case $score->score < 75.00:
+                                $almostProficient++;
+                                break;
+                            
+                            case $score->score > 75.00:
+                                $proficient++;
+                                break;
+                        }
+                    }
+                }
+                $studentScores = $temp;
+                break;
+            }
+           
+
+        }
+
+        $response = [
+            'student_scores' => $studentScores
+        ];
+
+        return $response;
+    }
+
+    /**
      * Local funciton to filter results base on level specified
      * @param $modules is an array of targets to be achieved in class
      * @param $level is the benchmark (Proficient, Almost Proficient, Not Proficient)
@@ -343,7 +450,6 @@ class ClassRoomController extends Controller {
         }
 
         $modulesString = json_decode(json_encode($modules));
-        info(json_encode($modulesString));
         foreach($modulesString->modules as $index => $module){
             $temp = [];
             $count = 0;
