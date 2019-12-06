@@ -28,4 +28,8 @@ class Module extends Model
         return $this->belongsToMany(Classes::class, 'module_class', 'module_id', 'class_id')->using(ModuleClass::class);
     }
 
+    public function standardizeds(){
+        return $this->belongsToMany(Standardized::class, 'module_standardized', 'module_id', 'standardized_id')->using(ModuleStandardized::class);
+    }
+
 }
