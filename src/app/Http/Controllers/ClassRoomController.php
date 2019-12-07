@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Classes;
 use App\User;
 use App\Module;
+use App\Standardized;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use DateTime;
@@ -381,40 +382,40 @@ class ClassRoomController extends Controller {
             $ids[$count++] = $student['id'];
         }
 
-        $modulesString = json_decode(json_encode($modules));
-        foreach($modulesString->modules as $index => $module){
-            $temp = [];
-            $count = 0;
-            $proficient = 0;
-            $almostProficient = 0;
-            $notProficient = 0;
-
+        $modulesString = json_decode($modules);
+        foreach ($modulesString->modules as $module) {
             if ($module->id == $targetID) {
-                foreach($module->scores as $score){
-                    if (in_array(json_decode($score->user_id,true), $ids, true)) {
-                        $temp[$count++] = $score;
-    
-                        switch (true) {
-                            case $score->score < 40.00:
-                                $notProficient++;
-                                break;
-                            
-                            case $score->score < 75.00:
-                                $almostProficient++;
-                                break;
-                            
-                            case $score->score > 75.00:
-                                $proficient++;
-                                break;
-                        }
+                $currentModule = $module;
+            }
+        }
+
+        $temp = [];
+        $count = 0;
+        $proficient = 0;
+        $almostProficient = 0;
+        $notProficient = 0;
+
+        // get standardized scores specific to this target
+        $standardizedScores = Module::with('standardizeds')->find($targetID)->standardizeds;
+        info($standardizedScores);
+        info(json_encode($currentModule));
+        foreach($currentModule->scores as $score){
+            if (in_array(json_decode($score->user_id,true), $ids, true)) {
+                $temp[$count++] = $score;
+
+                foreach($standardizedScores as $standardScore) {
+                    if ($standardScore->user_id == $temp[$count - 1]->user_id) {
+
+                        // insert estimated score
+                        $temp[$count - 1]->standardized_score = $standardScore->score;
+                        break;
                     }
                 }
-                $studentScores = $temp;
-                break;
             }
-           
 
         }
+
+        $studentScores = $temp;
 
         $response = [
             'student_scores' => $studentScores
