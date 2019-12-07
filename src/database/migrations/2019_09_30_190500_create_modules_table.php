@@ -14,14 +14,16 @@ class CreateModulesTable extends Migration
     public function up()
     {
         Schema::create('modules', function (Blueprint $table) {
-            $table->bigIncrements('id');
-            $table->string('subject');
-            $table->biginteger('grade')->unsigned();
-            $table->string('name');
-            $table->string('description');
-            $table->string('details');
+            $table->bigIncrements('id')->comment = 'Unique id automatically assigned for each target';
+            $table->string('subject')->comment = 'Name of the subject the target is for';
+            $table->biginteger('grade')->unsigned()->comment = 'Grade level the target is for';
+            $table->string('name')->comment = 'Name of the target';
+            $table->string('description')->comment = 'Description of the target';
+            $table->string('details')->comment = 'More details about the target';
             $table->timestamps();
         });
+
+        DB::statement('ALTER TABLE `modules` COMMENT = " This table stores all targets to align with state standards"');
     }
 
     /**
