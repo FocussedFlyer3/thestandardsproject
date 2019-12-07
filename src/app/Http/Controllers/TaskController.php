@@ -9,6 +9,7 @@ use App\Task;
 use App\User;
 use App\TaskUser;
 use App\Score;
+use App\Module;
 use Auth;
 
 class TaskController extends Controller
@@ -117,9 +118,18 @@ class TaskController extends Controller
                 $scores = $task->scores;
                 foreach ($scores as $score) {
                     if ($score['user_id'] == $userID) {
+                        // find state score related to this task module (target)
+                        $stateScore = json_decode(Module::with('standardizeds')->find($tasks[$index]->module_id)->standardizeds->where('user_id', $userID), true);
+                        $stateScore = reset($stateScore);
+                        
+                        // insert state score inside scoreInfo
                         $score = $score->makeHidden(['user_id']);
+                        $score->setAttribute('standardized_score', $stateScore['score']);
+
+                        // insert attributes into task
                         $tasks[$index]->setAttribute('scoreInfo', $score);
                         $tasks[$index]->setAttribute('status', $task->pivot->status);
+                        $tasks[$index]->setAttribute('due_date', $task->pivot->due_date);
                         $taskCount++;
                         break;
                     }
@@ -141,6 +151,7 @@ class TaskController extends Controller
             foreach($tasks as $index => $task) {
                 $tasks[$index]->makeHidden(['assigned_by_id']);
                 $currentStudent = $task->user_id;
+
                 if (!in_array(json_encode($currentStudent, true), $ids)) {
                     $tasks[$index]['user_details'] = User::find($tasks[$index]['user_id']);
                     $ids[$taskCount] = $tasks[$index]->user_id;
