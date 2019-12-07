@@ -397,8 +397,6 @@ class ClassRoomController extends Controller {
 
         // get standardized scores specific to this target
         $standardizedScores = Module::with('standardizeds')->find($targetID)->standardizeds;
-        info($standardizedScores);
-        info(json_encode($currentModule));
         foreach($currentModule->scores as $score){
             if (in_array(json_decode($score->user_id,true), $ids, true)) {
                 $temp[$count++] = $score;
