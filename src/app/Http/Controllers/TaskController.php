@@ -135,18 +135,23 @@ class TaskController extends Controller
         } else if ($user->role == 1) {               // teacher
             $tempTasks = [];
             $taskCount = 0;
+            $ids = [];
             $tasks = TaskUser::all()->where('assigned_by_id', $userID);
             foreach($tasks as $index => $task) {
                 $tasks[$index]->makeHidden(['assigned_by_id']);
-                $tasks[$index]['task_details'] = Task::find($tasks[$index]['task_id']);
-                $tasks[$index]['user_details'] = User::find($tasks[$index]['user_id']);
-                $tempTasks[$taskCount++] = $tasks[$index];
+                $currentStudent = $task->user_id;
+                if (!in_array(json_encode($currentStudent, true), $ids)) {
+                    $tasks[$index]['user_details'] = User::find($tasks[$index]['user_id']);
+                    $ids[$taskCount] = $tasks[$index]->user_id;
+                    $tempTasks[$taskCount++] = $tasks[$index];
+                }
+
             }
 
             $response = [
                 'tasks' => [
                     'count' => $taskCount,
-                    'details' => $tempTasks
+                    'students' => $tempTasks
                 ]
             ];
 
