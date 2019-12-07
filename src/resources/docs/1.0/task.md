@@ -44,11 +44,11 @@ Above is the meaning behind the status code on indicating the status of a task a
 
 
 <a id="section-2"></a>
-## Get all tasks available
-This API will return an array of tasks available in the system.
+## Get all tasks available for a specify module (target)
+This API will return an array of tasks available for the module (target).
 Endpoint:
 ```perl
-GET '/tasks'
+GET '/tasks/{moduleID}'
 ```
 
 <br/>
