@@ -60,10 +60,9 @@ Route::group(['prefix' => 'v1', 'middleware' => 'auth:api'], function () {
     Route::post('{userID}/classroom', 'ClassRoomController@newClass');                                         // create new classroom
     Route::post('{userID}/classroom/{classID}', 'ClassRoomController@updateClassInfo');                        // update classroom info
 
-
     # TASK API
     // assign and get task
-    Route::get('/tasks', 'TaskController@getAllTasks');                     // To get all tasks
+    Route::get('/tasks/{targetID}', 'TaskController@getAllTasks');                     // To get all tasks
     Route::post('{userID}/assign/{taskID}', 'TaskController@assignTask');   // To assign task to a user
     Route::get('{userID}/tasks','TaskController@getTasks');                 // obtain all user's task assigned
     Route::put('{userID}/tasks/{taskID}', 'TaskController@updateStatus');   // update status of a task

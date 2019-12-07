@@ -23,12 +23,13 @@ class TaskController extends Controller
     */
 
     /**
-     * To get all tasks available
+     * To get all tasks available based on target (module_id)
      * 
      * @return HTTP response with all tasks available
      */
-    public function getAllTasks () {
-        $task = Task::all();
+    public function getAllTasks ($targetID) {
+        $task = Task::all()->where('module_id', $targetID);
+        $task->makeHidden(['module_id']);
 
         $response = [
             'tasks' => $task
