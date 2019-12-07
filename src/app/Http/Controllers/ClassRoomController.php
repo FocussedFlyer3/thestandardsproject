@@ -456,13 +456,30 @@ class ClassRoomController extends Controller {
             $almostProficient = 0;
             $notProficient = 0;
 
+            $stateScores = Module::with('standardizeds')->find($module->id)->standardizeds;
             foreach($module->scores as $score){
 
                 if (in_array(json_decode($score->user_id,true), $ids, true)) {
                     $temp[$count++] = $score;
 
+                    $currentStudentStateScore = json_decode($stateScores->where('user_id',$score->user_id), true);
+                    $currentStudentStateScore = reset($currentStudentStateScore);
+                    info($currentStudentStateScore);
+                    
                     switch (true) {
                         case $score->score < 40.00:
+                            if ($score->score == 0) {
+                                if (empty($currentStudentStateScore)) {
+                                    break;
+                                } else if ($currentStudentStateScore['score'] > 75) {
+                                    $proficient++;
+                                    break;
+                                } else if ($currentStudentStateScore['score'] > 40) {
+                                    $almostProficient;
+                                    break;
+                                }
+                                break;
+                            }
                             $notProficient++;
                             break;
                         
