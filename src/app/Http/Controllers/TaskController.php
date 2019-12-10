@@ -8,6 +8,8 @@ use Illuminate\Support\Facades\Log;
 use App\Task;
 use App\User;
 use App\TaskUser;
+use App\Score;
+use App\Module;
 use Auth;
 
 class TaskController extends Controller
@@ -22,12 +24,30 @@ class TaskController extends Controller
     */
 
     /**
+     * To get all tasks available based on target (module_id)
+     * 
+     * @return HTTP response with all tasks available
+     */
+    public function getAllTasks ($targetID) {
+        $task = Task::where('module_id', $targetID)->get();
+        $task->makeHidden(['module_id']);
+
+        $response = [
+            'tasks' => $task
+        ];
+
+        $response = json_encode($response);
+        
+        return response($response, Response::HTTP_OK);
+    }
+
+    /**
      * Assign task to a group of users
      * @param $userID is the assignor id
      * @param $taskID is the task assignor selected to assign
      * @param $request is a json body containing assignee ids to assigned to
      *
-     * @return HTTP response //TODO
+     * @return HTTP response 
      */
     public function assignTask($userID, $taskID, Request $request) {
         $data = json_decode($request->getContent(), true);
@@ -36,15 +56,23 @@ class TaskController extends Controller
 
         try {
             foreach ($students as $studentID){ 
+                // insert score
+                $score = new Score;
+                $score->user_id = $studentID;
+                $score->score = 0;
+                $score->class_id = $classID;
+                $score->save();
 
                 // assign task to user 
                 $user = User::find($studentID);
-                $user->tasks()->attach($taskID,['assigned_by_id' => $userID, 'status' => 0]);
+                $user->tasks()->attach($taskID,['score_id' => $score->score_id, 'assigned_by_id' => $userID, 'status' => 0]);
             }
         } catch (\Illuminate\Database\QueryException $e){
             $error = [
-                'code' => 403,
-                'message' => 'Error: duplicate assignment detected!'
+                'error' => [
+                    'code' => 403,
+                    'message' => 'Error: duplicate assignment detected!'
+                ]
             ];
             Log::info('Assign Task');
             Log::info('Assignor ID: '.$userID);
@@ -92,9 +120,18 @@ class TaskController extends Controller
                 $scores = $task->scores;
                 foreach ($scores as $score) {
                     if ($score['user_id'] == $userID) {
+                        // find state score related to this task module (target)
+                        $stateScore = json_decode(Module::with('standardizeds')->find($tasks[$index]->module_id)->standardizeds->where('user_id', $userID), true);
+                        $stateScore = reset($stateScore);
+                        
+                        // insert state score inside scoreInfo
                         $score = $score->makeHidden(['user_id']);
+                        $score->setAttribute('standardized_score', $stateScore['score']);
+
+                        // insert attributes into task
                         $tasks[$index]->setAttribute('scoreInfo', $score);
                         $tasks[$index]->setAttribute('status', $task->pivot->status);
+                        $tasks[$index]->setAttribute('due_date', $task->pivot->due_date);
                         $taskCount++;
                         break;
                     }
@@ -111,18 +148,24 @@ class TaskController extends Controller
         } else if ($user->role == 1) {               // teacher
             $tempTasks = [];
             $taskCount = 0;
+            $ids = [];
             $tasks = TaskUser::all()->where('assigned_by_id', $userID);
             foreach($tasks as $index => $task) {
                 $tasks[$index]->makeHidden(['assigned_by_id']);
-                $tasks[$index]['task_details'] = Task::find($tasks[$index]['task_id']);
-                $tasks[$index]['user_details'] = User::find($tasks[$index]['user_id']);
-                $tempTasks[$taskCount++] = $tasks[$index];
+                $currentStudent = $task->user_id;
+
+                if (!in_array(json_encode($currentStudent, true), $ids)) {
+                    $tasks[$index]['user_details'] = User::find($tasks[$index]['user_id']);
+                    $ids[$taskCount] = $tasks[$index]->user_id;
+                    $tempTasks[$taskCount++] = $tasks[$index];
+                }
+
             }
 
             $response = [
                 'tasks' => [
                     'count' => $taskCount,
-                    'details' => $tempTasks
+                    'students' => $tempTasks
                 ]
             ];
 

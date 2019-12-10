@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateTasksTable extends Migration
+class CreateModuleStandardizedTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,13 +13,12 @@ class CreateTasksTable extends Migration
      */
     public function up()
     {
-        Schema::create('tasks', function (Blueprint $table) {
-            $table->bigIncrements('id');
-            $table->string('name');
-            $table->string('url');
+        Schema::create('module_standardized', function (Blueprint $table) {
             $table->biginteger('module_id')->unsigned();
             $table->foreign('module_id')->references('id')->on('modules');
-            $table->timestamps();
+            $table->biginteger('standardized_id')->unsigned();
+            $table->foreign('standardized_id')->references('id')->on('standardized')->onDelete('cascade');
+            $table->unique(['module_id', 'standardized_id']);
         });
     }
 
@@ -30,6 +29,6 @@ class CreateTasksTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('tasks');
+        Schema::dropIfExists('module_standardized');
     }
 }

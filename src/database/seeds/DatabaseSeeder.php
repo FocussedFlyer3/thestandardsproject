@@ -26,5 +26,7 @@ class DatabaseSeeder extends Seeder
         $this->call(TaskUserTableSeeder::class);
         $this->call(RecordsTableSeeder::class);
         $this->call(ScoreRecordTableSeeder::class);
+        $this->call(StandardizedTableSeeder::class);
+        $this->call(ModuleStandardizedTableSeeder::class);
     }
 }

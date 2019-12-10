@@ -14,6 +14,9 @@ Endpoint:
 ```perl
 GET '{userID}/record/{taskID}'
 ```
+
+> {info} Calling this API with a teacher `{userID}` with `{taskID}` as `{scoreID}` will return recordings and score of that student
+
 <br/>
 Expected return body on GET:
 ```JSON

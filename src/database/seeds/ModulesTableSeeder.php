@@ -21,37 +21,43 @@ class ModulesTableSeeder extends Seeder
                 'subject' => 'Math',
                 'grade' => 5,
                 'name' => 'A',
-                'description' => 'Write and interpret numerical expressions.'
+                'description' => 'Write and interpret numerical expressions.',
+                'details' => '<ADD MORE DETAILS HERE>'
             ),
             array(
                 'subject' => 'Math',
                 'grade' => 5,
                 'name' => 'B',
-                'description' => 'Analyze patterns and relationships.'
+                'description' => 'Analyze patterns and relationships.',
+                'details' => '<ADD MORE DETAILS HERE>'
             ),
             array(
                 'subject' => 'Math',
                 'grade' => 5,
                 'name' => 'C',
-                'description' => 'Understand the place value system.'
+                'description' => 'Understand the place value system.',
+                'details' => '<ADD MORE DETAILS HERE>'
             ),
             array(
                 'subject' => 'Math',
                 'grade' => 5,
                 'name' => 'D',
-                'description' => 'Perform operations with multi‐digit whole numbers and with decimals to hundredths.'
+                'description' => 'Perform operations with multi‐digit whole numbers and with decimals to hundredths.',
+                'details' => '<ADD MORE DETAILS HERE>'
             ),
             array(
                 'subject' => 'Math',
                 'grade' => 5,
                 'name' => 'E',
-                'description' => 'Use equivalent fractions as a strategy to add and subtract fractions.'
+                'description' => 'Use equivalent fractions as a strategy to add and subtract fractions.',
+                'details' => '<ADD MORE DETAILS HERE>'
             ),
             array(
                 'subject' => 'Math',
                 'grade' => 5,
                 'name' => 'F',
-                'description' => 'Apply and extend previous understandings of multiplication and division to multiply and divide fractions.'
+                'description' => 'Apply and extend previous understandings of multiplication and division to multiply and divide fractions.',
+                'details' => '<ADD MORE DETAILS HERE>'
             )
         ));
     }

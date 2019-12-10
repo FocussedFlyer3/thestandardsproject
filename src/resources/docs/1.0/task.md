@@ -37,11 +37,23 @@ Above is the meaning behind the status code on indicating the status of a task a
 
 ---
 
-- [Get all user's tasks](/{{route}}/{{version}}/task#section-1)
-- [Assign a task to a user](/{{route}}/{{version}}/task#section-2)
-- [Update task's status](/{{route}}/{{version}}/task#section-3)
+- [Get all tasks available](/{{route}}/{{version}}/task#section-1)
+- [Get all user's tasks](/{{route}}/{{version}}/task#section-2)
+- [Assign a task to a user](/{{route}}/{{version}}/task#section-3)
+- [Update task's status](/{{route}}/{{version}}/task#section-4)
 
-<a id="section-1"></a>
+
+<a id="section-2"></a>
+## Get all tasks available for a specify module (target)
+This API will return an array of tasks available for the module (target).
+Endpoint:
+```perl
+GET '/tasks/{moduleID}'
+```
+
+<br/>
+
+<a id="section-2"></a>
 ## Get all user's tasks
 This API will return an array of tasks assigned to `{userID}`.  
 Endpoint:
@@ -53,7 +65,7 @@ GET '{userID}/tasks'
 
 <br/>
 
-<a id="section-2"></a>
+<a id="section-3"></a>
 ## Assign a task to a user
 This API will assign users mentioned in `"students_id"` field with task `{taskID}`.  
 Endpoint:
@@ -74,7 +86,7 @@ Expected Body on POST:
 
 <br/>
 
-<a id="section-3"></a>
+<a id="section-4"></a>
 ## Update task's status
 This API will update a user current task's status to in progress and it should only be called on user first click on a task
 Endpoint:

@@ -57,13 +57,13 @@ GET '{userID}/classroom'
 
 <a id="section-3"></a>
 ## Get Classroom Details
-This API will return number of students that are proficent/almost proficent/non proficent in the class base on the `{classID}`.  
+This API will return number of students that are proficent/almost proficent/non proficent in the class base on the `{classID}`. 
 Endpoint:
 ```perl
 GET '{userID}/classroom/{classID}'
 ```
 <br/>
-To obtain a detail breakdown of proficent/almost proficent/non proficent students on each chapter(target):  
+To obtain a detail breakdown of proficent/almost proficent/non proficent students on each module (target):  
 Endpoint:
 ```perl
 GET '{userID}/classroom/{classID}/{benchmark}'
@@ -73,6 +73,11 @@ with `{benchmark}` options:
 "p" : proficient students
 "ap": almost proficient students
 "np": non proficient students
+```
+<br/>
+To obtain all students which are proficient/almost proficient/non proficient in a specify module (target):
+```perl
+GET '{userID}/classroom/{classID}/{benchmark}/{moduleID}'
 ```
 
 <br/>

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Classes;
 use App\User;
 use App\Module;
+use App\Standardized;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use DateTime;
@@ -317,6 +318,111 @@ class ClassRoomController extends Controller {
     }
 
     /**
+     * To get students' scores in this target
+     * @param $userID is user's id in system
+     * @param $classID is the class's id in system
+     * @param $benchmark is the benchmark (Proficient, Almost Proficient, Not Proficient)
+     * @param $targetID is the target specified
+     * 
+     * @return response JSON result
+     */
+    public function getTargetDetails ($userID, $classID, $benchmark, $targetID) {
+        $user = User::find($userID);
+
+        // check user's role
+        switch ($user->role) {
+            case 0: $role = 0; break;   // student
+            case 1: $role = 1; break;   // teacher
+            default: $role = null;
+        }
+
+        // get all modules and scores for this class
+        $modules = Classes::with('modules.scores.users')->find($classID);
+        $modules->makeHidden(['starts_at', 'ends_at', 'room', 'teacher_id']);
+        //  info($modules);
+
+        // check proficient level
+        switch ($benchmark) {
+            case 'p': $level = 0; break;    // proficient 
+            case 'ap': $level = 1; break;   // almost proficient 
+            case 'np': $level = 2; break;   // not proficient 
+            default: $level = null;
+        }
+
+        // filter students base on levels specified
+        $result = $this->filterTargetResult($modules, $level, $role, $user, $targetID);
+
+        $response = json_encode($result);
+
+        return response($response, Response::HTTP_OK);
+    }
+
+    /**
+     * Local funciton to filter results base on target specified
+     * @param $modules is an array of targets to be achieved in class
+     * @param $level is the benchmark (Proficient, Almost Proficient, Not Proficient)
+     * 
+     * @return filtered JSON result
+     */
+    private function filterTargetResult($modules, $level, $role, $user, $targetID){
+        if ($role == 0) {           // student
+            $allStandards = $this->getScore($user);
+        } else if ($role == 1) {    // teacher
+            $allStandards = $this->getAllScores($modules);
+        }
+
+        switch ($level){
+            case 0: $students = $allStandards['proficient']; break;
+            case 1: $students = $allStandards['almostProficient']; break;
+            case 2: $students = $allStandards['notProficient']; break;
+        }
+
+        $count = 0;
+        foreach($students['users'] as $student){
+            $ids[$count++] = $student['id'];
+        }
+
+        $modulesString = json_decode($modules);
+        foreach ($modulesString->modules as $module) {
+            if ($module->id == $targetID) {
+                $currentModule = $module;
+            }
+        }
+
+        $temp = [];
+        $count = 0;
+        $proficient = 0;
+        $almostProficient = 0;
+        $notProficient = 0;
+
+        // get standardized scores specific to this target
+        $standardizedScores = Module::with('standardizeds')->find($targetID)->standardizeds;
+        foreach($currentModule->scores as $score){
+            if (in_array(json_decode($score->user_id,true), $ids, true)) {
+                $temp[$count++] = $score;
+
+                foreach($standardizedScores as $standardScore) {
+                    if ($standardScore->user_id == $temp[$count - 1]->user_id) {
+
+                        // insert estimated score
+                        $temp[$count - 1]->standardized_score = $standardScore->score;
+                        break;
+                    }
+                }
+            }
+
+        }
+
+        $studentScores = $temp;
+
+        $response = [
+            'student_scores' => $studentScores
+        ];
+
+        return $response;
+    }
+
+    /**
      * Local funciton to filter results base on level specified
      * @param $modules is an array of targets to be achieved in class
      * @param $level is the benchmark (Proficient, Almost Proficient, Not Proficient)
@@ -324,10 +430,6 @@ class ClassRoomController extends Controller {
      * @return filtered JSON result
      */
     private function filterResult ($modules, $level, $role, $user) {
-        $allModule = [];
-        $moduleCount = 0;
-        $targetID = [];
-        $targetCount = 0;
 
         if ($role == 0) {           // student
             $allStandards = $this->getScore($user);
@@ -350,63 +452,56 @@ class ClassRoomController extends Controller {
         foreach($modulesString->modules as $index => $module){
             $temp = [];
             $count = 0;
+            $proficient = 0;
+            $almostProficient = 0;
+            $notProficient = 0;
 
+            $stateScores = Module::with('standardizeds')->find($module->id)->standardizeds;
             foreach($module->scores as $score){
 
                 if (in_array(json_decode($score->user_id,true), $ids, true)) {
                     $temp[$count++] = $score;
+
+                    $currentStudentStateScore = json_decode($stateScores->where('user_id',$score->user_id), true);
+                    $currentStudentStateScore = reset($currentStudentStateScore);
+                    info($currentStudentStateScore);
+                    
+                    switch (true) {
+                        case $score->score < 40.00:
+                            if ($score->score == 0) {
+                                if (empty($currentStudentStateScore)) {
+                                    break;
+                                } else if ($currentStudentStateScore['score'] > 75) {
+                                    $proficient++;
+                                    break;
+                                } else if ($currentStudentStateScore['score'] > 40) {
+                                    $almostProficient;
+                                    break;
+                                }
+                                break;
+                            }
+                            $notProficient++;
+                            break;
+                        
+                        case $score->score < 75.00:
+                            $almostProficient++;
+                            break;
+                        
+                        case $score->score > 75.00:
+                            $proficient++;
+                            break;
+                    }
                 }
             }
             $module->scores = $temp;
-            $moduleCount++;
+            $module->proficient = $proficient;
+            $module->almost_proficient = $almostProficient;
+            $module->non_proficient = $notProficient;
 
-        }
-
-        $student_target = [];
-        $tempCount = 0;
-        $tempIds = [];
-        foreach($modulesString->modules as $index => $module) {
-            foreach($module->scores as $student) {
-
-                if (array_key_exists(json_decode($student->user_id, true), $tempIds)) {
-                    $target = [
-                        'id' => $module->id,
-                        'name' => $module->name,
-                        'description' => $module->description,
-                        'score_details' => [
-                            'id' => $student->score_id,
-                            'score' => $student->score
-                        ]
-                    ];
-                    array_push($student_target[$tempIds[$student->user_id]]['targets'], $target);
-                } else {
-                    $currentStudent = [
-                        'id' => $student->users->id,
-                        'name' => $student->users->name,
-                        'targets' => [
-                            [
-                            'id' => $module->id,
-                            'name' => $module->name,
-                            'description' => $module->description,
-                                'score_details' => [
-                                    'id' => $student->score_id,
-                                    'score' => $student->score
-                                ]
-                            ]
-                        ]
-                    ];
-
-                    $tempIds[$student->users->id] = $tempCount;
-                    $student_target[$tempCount] = $currentStudent;
-                    $tempCount++;
-                }
-
-            }
         }
 
         $response = [
-            'target_count' => $moduleCount,
-            'details' => $student_target
+            'targets' => $modulesString
         ];
 
         return $response;
