@@ -80,7 +80,9 @@ vagrant halt
 <a id="section-3"></a>
 ## Setting Up Environment
 `vagrant ssh` to enter into system and enter into source code directory with `cd code/`.  
+
 <br/>
+
 In your source code directory, perform the followings:
 
 Install dependencies:
@@ -89,14 +91,9 @@ composer install
 npm install
 ```
 
+<br/>
+
 Rebuild database:
 ```bash
 php artisan migrate:refresh --seed
 ```
-
-<br/>
-During development run: 
-```bash
-npm run watch
-```
-This builds the system on every save (CTRL+S), ensuring the latest changes is applied.  

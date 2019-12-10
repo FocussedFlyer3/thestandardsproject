@@ -7,3 +7,5 @@
     - [Task](/{{route}}/{{version}}/task)
     - [Score](/{{route}}/{{version}}/score)
     - [Record](/{{route}}/{{version}}/record)
+- ## Deployment
+    - [AWS EC2](/{{route}}/{{version}}/deployment-ec2)
