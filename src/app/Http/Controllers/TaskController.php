@@ -69,8 +69,10 @@ class TaskController extends Controller
             }
         } catch (\Illuminate\Database\QueryException $e){
             $error = [
-                'code' => 403,
-                'message' => 'Error: duplicate assignment detected!'
+                'error' => [
+                    'code' => 403,
+                    'message' => 'Error: duplicate assignment detected!'
+                ]
             ];
             Log::info('Assign Task');
             Log::info('Assignor ID: '.$userID);
