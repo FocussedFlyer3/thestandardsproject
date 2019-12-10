@@ -22,6 +22,7 @@ To deploy on AWS, we must have these resources ready to use:
 - Nginx 1.16
 - PHP 7.3
 - PHP 7.3-FPM
+- PHP 7.3-XML
 - MySQL PDO drivers
 - Composer
 - Npm
@@ -58,9 +59,9 @@ add-apt-repository ppa:ondrej/php               // add repo
 sudo apt update
 ```
 
-Install PHP 7.3 and PHP 7.3-FP
+Install PHP 7.3, PHP 7.3-FPM and PHP 7.3-XML
 ```bash
-sudo apt install php7.3 php7.3-FPM
+sudo apt install php7.3 php7.3-FPM php7.3-xml
 ```
 
 > {info} check PHP version with `php -v` command  
