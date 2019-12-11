@@ -4,8 +4,8 @@ A system that will store multimedia “modules” and present them to students f
 ---
 
 
-- [Overview](/{{route}}/{{version}}/overview#section-1)
-- [APIs](/{{route}}/{{version}}/overview#section-2)
+- [Overview](./overview.md#section-1)
+- [APIs](./overview.md#section-2)
 
 <a id="section-1"></a>
 ## Overview
@@ -29,8 +29,9 @@ Content-Type: "application/json"
 
 <a id="section-2"></a>
 ## APIs
-> - [Account](/{{route}}/{{version}}/account)
-> - [Classroom](/{{route}}/{{version}}/classroom)
-> - [Task](/{{route}}/{{version}}/task)
-> - [Score](/{{route}}/{{version}}/score)
+> - [Account](./account.md)
+> - [Classroom](./classroom.md)
+> - [Task](./task.md)
+> - [Score](./score.md)
+> - [Record](./record.md)
 
