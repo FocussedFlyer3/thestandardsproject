@@ -14,10 +14,3 @@ Rebuild database:
 ```bash
 php artisan migrate:refresh --seed
 ```
-
-### Development
-During development run: 
-```bash
-npm run watch
-```
-This builds the system on every save (CTRL+S), ensuring the latest changes is applied.
