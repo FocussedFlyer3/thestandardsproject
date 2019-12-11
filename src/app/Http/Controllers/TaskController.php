@@ -142,6 +142,12 @@ class TaskController extends Controller
             $tasks = $tasks->makeHidden(['scores']);
             $response = [
                 'tasks' => [
+                    'userInfo' => [
+                        'id' => $user->id,
+                        'name' => $user->name,
+                        'username' => $user->username,
+                        'email' => $user->email
+                    ],
                     'count' => $taskCount,
                     'details' => $tasks
                 ]
