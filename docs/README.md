@@ -12,7 +12,7 @@ Project documentations includes:
      Documentation on the implementation of version control in this project.  
      <br />
      
- * 1.0/
+ * [1.0/](./1.0/)
      
      Detailed Documentation on APIs, deployment instructions and installation for this project.
      <br />
