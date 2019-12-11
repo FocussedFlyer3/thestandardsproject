@@ -79,7 +79,8 @@ Expected Body on POST:
 ```JSON
 "task":{
 	"class_id": "1",
-	"students_id": [5,6]
+	"students_id": [5,6],
+    "due_date": "YYYY-MM-DD"
 }
 ```
 > {info} A task can be updated with a done status `2` by calling [score API](/{{route}}/{{version}}/score#section-1)

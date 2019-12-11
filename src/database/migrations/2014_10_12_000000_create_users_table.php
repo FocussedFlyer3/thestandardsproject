@@ -23,7 +23,7 @@ class CreateUsersTable extends Migration
             $table->integer('role')->comment = 'Role of the user ( 0 => student, 1 => teacher)';
             $table->string('api_token', 60)->unique()->comment = 'randomly generated authorization token for every user created';
             $table->rememberToken();
-            $table->timestamps()->comment;
+            $table->timestamps();
         });
 
         DB::statement('ALTER TABLE `users` COMMENT = "This table stores user information"');

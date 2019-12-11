@@ -23,7 +23,7 @@ class CreateTaskUserTable extends Migration
             $table->biginteger('assigned_by_id')->unsigned()->comment = 'Id of user that assigning this task';
             $table->foreign('assigned_by_id')->references('id')->on('users')->onDelete('cascade');
             $table->biginteger('status')->unsigned()->comment = 'Status of task ( 0 => undone, 1 => in progress, 2 => done)';
-            $table->time('due_date')->comment = 'due date set by teacher';
+            $table->date('due_date')->comment = 'due date set by teacher';
             $table->unique(['task_id', 'user_id']);
         });
 

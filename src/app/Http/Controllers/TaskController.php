@@ -52,7 +52,8 @@ class TaskController extends Controller
     public function assignTask($userID, $taskID, Request $request) {
         $data = json_decode($request->getContent(), true);
         $classID = $data['task']['class_id'];
-        $students= $data['task']['students_id'];
+        $students = $data['task']['students_id'];
+        $dueDate = $data['task']['due_date'];
 
         try {
             foreach ($students as $studentID){ 
@@ -65,7 +66,7 @@ class TaskController extends Controller
 
                 // assign task to user 
                 $user = User::find($studentID);
-                $user->tasks()->attach($taskID,['score_id' => $score->score_id, 'assigned_by_id' => $userID, 'status' => 0]);
+                $user->tasks()->attach($taskID,['score_id' => $score->score_id, 'assigned_by_id' => $userID, 'status' => 0, 'due_date' => $dueDate]);
             }
         } catch (\Illuminate\Database\QueryException $e){
             $error = [
