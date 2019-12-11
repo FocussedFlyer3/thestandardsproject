@@ -11,15 +11,18 @@ A system that will store multimedia “modules” and present them to students f
 ## Overview
 This system API has predictable resource-oriented URLs, accepts **JSON-encoded** request bodies, returns **JSON-encoded** responses, and uses standard HTTP response codes, authentication, and verbs.  
 <br/>
-####Base url:
-```curl
+#### Base url:
+```
 {{env('APP_URL')}}/api/v1
 ```  
 <br/>
-This system API uses API keys to authenticate requests. Authentication to the API is performed via HTTP authorization header using bearer token. Provide your API key as the basic authorization header value.  
+
+This system API uses API keys to authenticate requests. Authentication to the API is performed via HTTP authorization header using bearer token. Provide your API key as the basic authorization header value.
+
 <br/>
-####Header of request should contain at-least:
-```perl
+
+#### Header of request should contain at-least:
+```
 Authorization: "Bearer <API KEY>",
 Accept: "application/json",
 Content-Type: "application/json"
