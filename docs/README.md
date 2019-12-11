@@ -14,4 +14,9 @@ Project documentations includes:
   * version_control.txt
 
      Documentation on the implementation of version control in this project.  
-     <br />  
+     <br />
+     
+ * 1.0/
+     
+     Detailed Documentation on APIs, deployment instructions and installation for this project.
+     <br />
