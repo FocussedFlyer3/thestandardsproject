@@ -7,4 +7,5 @@ use Illuminate\Database\Eloquent\Relations\Pivot;
 class TaskUser extends pivot
 {
     //
+    public $timestamps = false;
 }
