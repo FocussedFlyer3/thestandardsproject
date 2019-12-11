@@ -4,22 +4,25 @@ A system that will store multimedia “modules” and present them to students f
 ---
 
 
-- [Overview](/{{route}}/{{version}}/overview#section-1)
-- [APIs](/{{route}}/{{version}}/overview#section-2)
+- [Overview](./overview.md#section-1)
+- [APIs](./overview.md#section-2)
 
 <a id="section-1"></a>
 ## Overview
 This system API has predictable resource-oriented URLs, accepts **JSON-encoded** request bodies, returns **JSON-encoded** responses, and uses standard HTTP response codes, authentication, and verbs.  
 <br/>
-####Base url:
-```curl
+#### Base url:
+```
 {{env('APP_URL')}}/api/v1
 ```  
 <br/>
-This system API uses API keys to authenticate requests. Authentication to the API is performed via HTTP authorization header using bearer token. Provide your API key as the basic authorization header value.  
+
+This system API uses API keys to authenticate requests. Authentication to the API is performed via HTTP authorization header using bearer token. Provide your API key as the basic authorization header value.
+
 <br/>
-####Header of request should contain at-least:
-```perl
+
+#### Header of request should contain at-least:
+```
 Authorization: "Bearer <API KEY>",
 Accept: "application/json",
 Content-Type: "application/json"
@@ -29,8 +32,9 @@ Content-Type: "application/json"
 
 <a id="section-2"></a>
 ## APIs
-> - [Account](/{{route}}/{{version}}/account)
-> - [Classroom](/{{route}}/{{version}}/classroom)
-> - [Task](/{{route}}/{{version}}/task)
-> - [Score](/{{route}}/{{version}}/score)
+> - [Account](./account.md)
+> - [Classroom](./classroom.md)
+> - [Task](./task.md)
+> - [Score](./score.md)
+> - [Record](./record.md)
 

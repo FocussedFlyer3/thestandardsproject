@@ -1,10 +1,6 @@
 # README
 
 Project documentations includes:
-  * stories.pdf
-
-     Documentation of what the core will be for this project.  
-     <br />  
 
   * coding_standards.txt
 
@@ -14,4 +10,9 @@ Project documentations includes:
   * version_control.txt
 
      Documentation on the implementation of version control in this project.  
-     <br />  
+     <br />
+     
+ * [1.0/](./1.0/)
+     
+     Detailed Documentation on APIs, deployment instructions and installation for this project.
+     <br />
