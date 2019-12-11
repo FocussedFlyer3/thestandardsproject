@@ -22,7 +22,7 @@ class UserTableSeeder extends Seeder
         'name'     => 'John Beck',
         'username' => 'teacherone',
         'email'    => 'johnbeck@email.com',
-        'password' => Hash::make('passwordone'),
+        'password' => Hash::make('asdqwe'),
         'role' => 1,
         'api_token' => str_random(60)
         ));
@@ -31,7 +31,7 @@ class UserTableSeeder extends Seeder
         'name'     => 'Joe Biden',
         'username' => 'teachertwo',
         'email'    => 'joebiden@email.com',
-        'password' => Hash::make('passwordtwo'),
+        'password' => Hash::make('asdqwe'),
         'role' => 1,
         'api_token' => str_random(60)
         ));
@@ -40,7 +40,7 @@ class UserTableSeeder extends Seeder
         'name'     => 'Ralph Cohen',
         'username' => 'teacherthree',
         'email'    => 'ralphcohen@email.com',
-        'password' => Hash::make('passwordthree'),
+        'password' => Hash::make('asdqwe'),
         'role' => 1,
         'api_token' => str_random(60)
         ));
@@ -50,7 +50,7 @@ class UserTableSeeder extends Seeder
             'name'     => 'Sally Rogers',
             'username' => 'studentone',
             'email'    => 'one@email.com',
-            'password' => Hash::make('passwordone'),
+            'password' => Hash::make('asdqwe'),
             'role' => 0,
             'api_token' => str_random(60)
             ));
@@ -59,7 +59,7 @@ class UserTableSeeder extends Seeder
             'name'     => 'Burt Hagard',
             'username' => 'studenttwo',
             'email'    => 'two@email.com',
-            'password' => Hash::make('passwordone'),
+            'password' => Hash::make('asdqwe'),
             'role' => 0,
             'api_token' => str_random(60)
             ));
@@ -68,16 +68,16 @@ class UserTableSeeder extends Seeder
             'name'     => 'Josiah Nigel',
             'username' => 'studentthree',
             'email'    => 'three@email.com',
-            'password' => Hash::make('passwordone'),
+            'password' => Hash::make('asdqwe'),
             'role' => 0,
             'api_token' => str_random(60)
             ));
 
         User::create(array(
-            'name'     => 'Shahbaaz Singh',
+            'name'     => 'Shahbaz Singh',
             'username' => 'studentfour',
             'email'    => 'four@email.com',
-            'password' => Hash::make('passwordone'),
+            'password' => Hash::make('asdqwe'),
             'role' => 0,
             'api_token' => str_random(60)
             ));
@@ -86,16 +86,16 @@ class UserTableSeeder extends Seeder
             'name'     => 'Harry Styles',
             'username' => 'studentfive',
             'email'    => 'five@email.com',
-            'password' => Hash::make('passwordone'),
+            'password' => Hash::make('asdqwe'),
             'role' => 0,
             'api_token' => str_random(60)
             ));
 
         User::create(array(
-            'name'     => 'Channing Tatum',
+            'name'     => 'Louis Tatum',
             'username' => 'studentsix',
             'email'    => 'six@email.com',
-            'password' => Hash::make('passwordone'),
+            'password' => Hash::make('asdqwe'),
             'role' => 0,
             'api_token' => str_random(60)
             ));
@@ -104,7 +104,7 @@ class UserTableSeeder extends Seeder
             'name'     => 'Ryan Reynolds',
             'username' => 'studentseven',
             'email'    => 'seven@email.com',
-            'password' => Hash::make('passwordone'),
+            'password' => Hash::make('asdqwe'),
             'role' => 0,
             'api_token' => str_random(60)
             ));
@@ -113,7 +113,7 @@ class UserTableSeeder extends Seeder
             'name'     => 'Ian Lampert',
             'username' => 'studenteight',
             'email'    => 'eight@email.com',
-            'password' => Hash::make('passwordone'),
+            'password' => Hash::make('asdqwe'),
             'role' => 0,
             'api_token' => str_random(60)
             ));
@@ -122,16 +122,16 @@ class UserTableSeeder extends Seeder
             'name'     => 'Alaya Hunter',
             'username' => 'studentnine',
             'email'    => 'nine@email.com',
-            'password' => Hash::make('passwordone'),
+            'password' => Hash::make('asdqwe'),
             'role' => 0,
             'api_token' => str_random(60)
             ));
 
         User::create(array(
-            'name'     => 'Jenny Plexazeusnamastesamsara',
+            'name'     => 'Jenny Sue',
             'username' => 'studentten',
             'email'    => 'ten@email.com',
-            'password' => Hash::make('passwordone'),
+            'password' => Hash::make('asdqwe'),
             'role' => 0,
             'api_token' => str_random(60)
             ));
