@@ -1,10 +1,6 @@
 # README
 
 Project documentations includes:
-  * stories.pdf
-
-     Documentation of what the core will be for this project.  
-     <br />  
 
   * coding_standards.txt
 
