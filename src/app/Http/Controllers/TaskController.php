@@ -32,7 +32,11 @@ class TaskController extends Controller
         $task = Task::where('module_id', $targetID)->get();
         $task->makeHidden(['module_id']);
 
+        // get module details
+        $module = Module::find($targetID);
+
         $response = [
+            'target' => $module,
             'tasks' => $task
         ];
 
