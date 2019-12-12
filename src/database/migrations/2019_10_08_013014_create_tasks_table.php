@@ -16,6 +16,7 @@ class CreateTasksTable extends Migration
         Schema::create('tasks', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('name');
+            $table->string('details');
             $table->string('url');
             $table->biginteger('module_id')->unsigned();
             $table->foreign('module_id')->references('id')->on('modules');
