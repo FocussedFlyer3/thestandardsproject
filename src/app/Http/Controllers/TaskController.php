@@ -166,7 +166,33 @@ class TaskController extends Controller
                 $currentStudent = $task->user_id;
 
                 if (!in_array(json_encode($currentStudent, true), $ids)) {
-                    $tasks[$index]['user_details'] = User::find($tasks[$index]['user_id']);
+                    // get current user details
+                    $currentUser = User::with('tasks')->find($tasks[$index]['user_id']);
+
+
+                    // get all tasks details about this user
+                    $done = 0;
+                    $inProgress = 0;
+                    $notStarted = 0;
+                    foreach($currentUser->tasks as $currentTask) {
+                        if ($currentTask->pivot->status == 2) {
+                            $done++;
+                        } else if ($currentTask->pivot->status == 1) {
+                            $inProgress++;
+                        } else if ($currentTask->pivot->status == 0) {
+                            $notStarted++;
+                        }
+                    } 
+
+                    $summary = [
+                        'completed' => $done,
+                        'inProgress' => $inProgress,
+                        'notCompleted' => $notStarted
+                    ];
+
+                    $currentUser->makeHidden(['tasks']);
+                    $currentUser->setAttribute('summary', $summary);
+                    $tasks[$index]['user_details'] = $currentUser;
                     $ids[$taskCount] = $tasks[$index]->user_id;
                     $tempTasks[$taskCount++] = $tasks[$index];
                 }
